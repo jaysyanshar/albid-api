@@ -1,5 +1,5 @@
 const express = require('express')
-const crud = require('./crud')
+const crud = require('../app_modules/crud')
 
 const Bidan = require('../models/Bidan')
 const router = express.Router()

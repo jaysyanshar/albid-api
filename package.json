@@ -4,7 +4,7 @@
   "description": "API untuk Aplikasi Layanan Kebidanan",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "",
     "dev": "nodemon app.js"
   },
   "keywords": [
@@ -19,5 +19,8 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.25"
+  },
+  "devDependencies": {
+    "request": "^2.88.2"
   }
 }

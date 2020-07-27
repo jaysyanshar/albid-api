@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const dbConnect = require('./config/db')
 const bidanRoute = require('./routes/bidan-route')
 const credentials = require('./config/credentials')
-const httpStatusCode = require('./config/http-status-code')
+const httpStatusCode = require('./app_modules/http-status-code')
 
 // Custom Global Middleware
 var apiKeyChecker = (req, res, next) => {
@@ -39,9 +39,9 @@ const runFunction = () => {
 // Main Error Function
 const errorFunction = (err) => {
     // error handling
-    // console.error(err)
-    app.statusMessage = 'Server Error'
-    
+    console.error(err)
+    res.statusMessage = httpStatusCode[500].statusMessage
+    res.status(500).send(httpStatusCode[500]).json().end()
 }
 
 // Start DB and App
