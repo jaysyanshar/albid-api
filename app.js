@@ -2,9 +2,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const dbConnect = require('./config/db')
-const bidanRoute = require('./routes/bidan-route')
+
+// Values
 const credentials = require('./config/credentials')
 const httpStatusCode = require('./app_modules/http-status-code')
+
+// Router
+const bidanRoute = require('./routes/bidan-route')
+const pasienRoute = require('./routes/pasien-route')
 
 // Custom Global Middleware
 var apiKeyChecker = (req, res, next) => {
@@ -30,7 +35,9 @@ const runFunction = () => {
     const port = process.env.port || 4000
 
     // Using specific URI path to listen
-    app.use(credentials.apiRoute.bidan, bidanRoute)
+    const root = credentials.apiRoute.root
+    app.use(root + credentials.apiRoute.bidan, bidanRoute)
+    app.use(root + credentials.apiRoute.pasien, pasienRoute)
 
     // Listening on server
     app.listen(port, () => console.log('Listening on port ', port))
