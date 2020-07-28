@@ -7,20 +7,17 @@ const dbConnect = require('./config/db')
 const credentials = require('./config/credentials')
 const httpStatusCode = require('./app_modules/http-status-code')
 
+// Function
+const baseResponse = require('./app_modules/base-response')
+const validator = require('./app_modules/validator')
+
 // Router
 const bidanRoute = require('./routes/bidan-route')
 const pasienRoute = require('./routes/pasien-route')
+const sessionRoute = require('./routes/session-route')
 
-// Custom Global Middleware
-var apiKeyChecker = (req, res, next) => {
-    let headers = req.headers
-    if (headers['x-api-key'] === credentials.apiKey) {
-        next()
-    } else {
-        res.statusMessage = httpStatusCode[412].statusMessage
-        res.status(412).send(httpStatusCode[412]).json().end()
-    }
-}
+// Init App
+const app = express()
 
 // Main Run Function
 const runFunction = () => {
@@ -28,14 +25,14 @@ const runFunction = () => {
     console.log('Database connected.')
 
     // Middleware Config
-    const app = express()
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: true }))
-    app.use(apiKeyChecker)
+    app.use(validator.apiKeyChecker)
     const port = process.env.port || 4000
 
     // Using specific URI path to listen
     const root = credentials.apiRoute.root
+    app.use(root + credentials.apiRoute.session, sessionRoute)
     app.use(root + credentials.apiRoute.bidan, bidanRoute)
     app.use(root + credentials.apiRoute.pasien, pasienRoute)
 
@@ -47,8 +44,6 @@ const runFunction = () => {
 const errorFunction = (err) => {
     // error handling
     console.error(err)
-    res.statusMessage = httpStatusCode[500].statusMessage
-    res.status(500).send(httpStatusCode[500]).json().end()
 }
 
 // Start DB and App

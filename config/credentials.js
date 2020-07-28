@@ -3,6 +3,7 @@ const credentials = {
     apiKey: 'APIKEYUNTUKAPLIKASILAYANANKEBIDANANKOTA211D3TIF2017POLBAN',
     apiRoute: {
         root: '/api',
+        session: '/session',
         bidan: '/bidan',
         pasien: '/pasien',
     }
