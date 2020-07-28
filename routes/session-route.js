@@ -181,6 +181,7 @@ const logoutAllSession = (req, res) => {
 }
 
 // EXPRESS HTTP METHODS
+// Login
 router.post('/', (req, res) => {
     if (req.body.isBidan) {
         upsertSession(req, res, Bidan)
@@ -188,8 +189,11 @@ router.post('/', (req, res) => {
         upsertSession(req, res, Pasien)
     }
 })
+// Re-Login
 router.get('/', (req, res) => reLoginSession(req, res))
+// Logout
 router.put('/', (req, res) => logoutSession(req, res))
+// Logout All Devices
 router.delete('/', (req, res) => logoutAllSession(req, res))
 
 module.exports = router

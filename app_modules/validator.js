@@ -1,5 +1,6 @@
 const baseResponse = require('./base-response')
 const credentials = require('../config/credentials')
+const Session = require('../models/Session')
 
 const validator = {
     apiKeyChecker: (req, res, next) => {
@@ -12,6 +13,41 @@ const validator = {
             }
             res.status(412).send(baseResponse.error(res, error)).json().end()
         }
+    },
+    sessionChecker: (req, res, next) => {
+        let headers = req.headers
+        if (headers['session-id'] != null) {
+            Session.findOne({ _id: headers['session-id'] })
+            .then(doc => {
+                if (doc != null) {
+                    next()
+                } else {
+                    throw Error('Session not found.')
+                }
+            })
+            .catch(err => {
+                if (err == 'Error: Session not found.') {
+                    res.status(401)
+                } else {
+                    res.status(500)
+                }
+                res.send(baseResponse.error(res, err)).json().end()
+            })
+        } else {
+            let error = {
+                message: 'Require login.'
+            }
+            res.status(401).send(baseResponse.error(res, error)).json().end()
+        }
+    },
+    isBidan: (sessionId) => {
+        Session.findOne({ _id: sessionId })
+        .then(doc => {
+            return doc.isBidan
+        })
+        .catch(err => {
+            return null
+        })
     }
 }
 

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const pasienSchema = new Schema({
     nik: { type: String, trim: true, unique: true, required: true, index: true, },
-    password: { type: String, trim: true, required: true, },
+    password: { type: String, trim: true, default: '' },
     tanggalDaftar: { type: Date, required: true, default: Date.now, },
     nama: { type: String, trim: true, required: true, },
     tanggalLahir: Date,

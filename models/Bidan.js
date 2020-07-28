@@ -6,7 +6,7 @@ const bidanSchema = new Schema({
     nik: { type: String, trim: true, unique: true, required: true, index: true, },
     password: { type: String, trim: true, required: true, },
     tanggalDaftar: { type: Date, required: true, default: Date.now, },
-    nama: { type: String, trim: true, required: true, },
+    nama: { type: String,trim: true, required: true, },
     tanggalLahir: Date,
     kontak: {
         noHP: { type: String, trim: true, unique: true, required: true, index: true, },
