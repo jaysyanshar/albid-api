@@ -23,9 +23,8 @@ router.use((req, res, next) => {
         if (req.headers['user-role'] == 'bidan') {
             if (req.body.password != null) {
                 delete req.body.password
-            } else {
-                next()
             }
+            next()
         } else if (req.headers['user-role'] == 'pasien') {
             req.query = { _id: req.headers['user-id'] }
             next()
@@ -48,6 +47,9 @@ router.use((req, res, next) => {
             next()
         } else if (req.headers['user-role'] == 'pasien') {
             req.query = { _id: req.headers['user-id'] }
+            if (req.url == '/list') {
+                req.url = '/'
+            }
             next()
         } else {
             let error = { message: 'Unauthorized role.' }

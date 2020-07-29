@@ -65,7 +65,9 @@ const upsertSession = (req, res, Model) => {
         })
     })
     .catch(err => {
-        switch (err.code) {
+        if (err == 'Error: User not found.') {
+            res.status(404)
+        } else switch (err.code) {
             // unique data already exist
             case 11000: { res.status(409); break }
             // required field not assigned
