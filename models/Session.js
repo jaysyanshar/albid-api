@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const sessionSchema = new Schema({
-    userID: { type: mongoose.Types.ObjectId, trim: true, unique: true, required: true, index: true, },
+    userId: { type: mongoose.Types.ObjectId, trim: true, unique: true, required: true, index: true, },
     isBidan: { type: Boolean, required: true },
     login: [
         {

@@ -14,12 +14,22 @@ const validator = {
             res.status(412).send(baseResponse.error(res, error)).json().end()
         }
     },
+    requestChecker: (req, res, next) => {
+        if ((typeof req.headers === 'object') && (typeof res.status === 'function')) {
+            next()
+        } else {
+            let error = { message: 'Request type error.' }
+            res.status(400).send(baseResponse.error(res, error)).json().end()
+        }
+    },
     sessionChecker: (req, res, next) => {
         let headers = req.headers
         if (headers['session-id'] != null) {
             Session.findOne({ _id: headers['session-id'] })
             .then(doc => {
                 if (doc != null) {
+                    req.headers['user-role'] = doc.isBidan ? 'bidan' : 'pasien'
+                    req.headers['user-id'] = doc.userId
                     next()
                 } else {
                     throw Error('Session not found.')
@@ -40,15 +50,6 @@ const validator = {
             res.status(401).send(baseResponse.error(res, error)).json().end()
         }
     },
-    isBidan: (sessionId) => {
-        Session.findOne({ _id: sessionId })
-        .then(doc => {
-            return doc.isBidan
-        })
-        .catch(err => {
-            return null
-        })
-    }
 }
 
 module.exports = validator

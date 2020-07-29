@@ -27,6 +27,7 @@ const runFunction = () => {
     // Middleware Config
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: true }))
+    app.use(validator.requestChecker)
     app.use(validator.apiKeyChecker)
     const port = process.env.port || 4000
 

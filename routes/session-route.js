@@ -18,10 +18,22 @@ const upsertSession = (req, res, Model) => {
     .then(modelDoc => {
         if (modelDoc == null) { throw Error('User not found.') }
 
-        Session.findOne({ userID: modelDoc._id })
+        Session.findOne({ userId: modelDoc._id })
         .then(sessionDoc => {
-            if (sessionDoc == null) { throw Error('Session not found.') }
-            else {
+            if (sessionDoc == null) {
+                let sessionData = {
+                    isBidan: data.isBidan,
+                    userId: modelDoc._id,
+                    login: [
+                        {
+                            connection: clientIp,
+                            date: Date.now()
+                        }
+                    ]
+                }
+                req.body = sessionData
+                crud.createOne(req, res, Session)
+            } else {
                 let sent = false
                 for (let i = 0; i < sessionDoc.login.length; i++) {
                     if (sessionDoc.login[i].connection == clientIp) {
@@ -44,23 +56,12 @@ const upsertSession = (req, res, Model) => {
             }
         })
         .catch(sessionErr => {
-            if (sessionErr == 'Error: Session not found.') {
-                let sessionData = {
-                    isBidan: data.isBidan,
-                    userID: modelDoc._id,
-                    login: [
-                        {
-                            connection: clientIp,
-                            date: Date.now()
-                        }
-                    ]
-                }
-                req.body = sessionData
-                crud.createOne(req, res, Session)
+            if (sessionErr == 'Error: User not found.') {
+                res.status(404)
+            } else {
+                res.status(500)
             }
-            else {
-                res.status(500).send(baseResponse.error(res, sessionErr)).json().end()
-            }
+            res.send(baseResponse.error(res, sessionErr)).json().end()
         })
     })
     .catch(err => {
@@ -80,15 +81,16 @@ const upsertSession = (req, res, Model) => {
 // Re-login
 const reLoginSession = (req, res) => {
     let clientIp = requestIp.getClientIp(req)
-    Session.findOne({ _id: req.headers["session-id"] })
+    Session.findOne({ _id: req.headers['session-id'] })
     .then(doc => {
+        if (doc == null) { throw Error('Session not found.') }
         let sent = false
         for (let i = 0; i < doc.login.length; i++) {
             if (doc.login[i].connection == clientIp) {
                 doc.login[i].date = Date.now()
                 try {
                     doc.save()
-                    res.status(200).send(baseResponse.ok(res, doc, true)).json().end()
+                    res.status(200).send(baseResponse.ok(res, doc)).json().end()
                     sent = true
                 } catch (e) {
                     throw Error('Failed to send data.')
@@ -103,10 +105,13 @@ const reLoginSession = (req, res) => {
     .catch(err => {
         console.log(err)
         if (err == 'Error: Need re-login.') {
-            res.status(401).send(baseResponse.error(res, err)).json().end()
+            res.status(401)
+        } else if (err == 'Error: Session not found.') {
+            res.status(404)
         } else {
-            res.status(500).send(baseResponse.error(res, err)).json().end()
+            res.status(500)
         }
+        res.send(baseResponse.error(res, err)).json().end()
     })
 }
 
@@ -115,8 +120,14 @@ const logoutSession = (req, res) => {
     let clientIp = requestIp.getClientIp(req)
     Session.findOne({ _id: req.headers["session-id"] })
     .then(doc => {
+        if (doc == null) { throw Error('Session not found.') }
         let sent = false
         for (let i = 0; i < doc.login.length; i++) {
+            if (doc.login.length == 1) {
+                logoutAllSession(req, res)
+                sent = true
+                break
+            }
             if (doc.login[i].connection == clientIp) {
                 doc.login.splice(i, 1)
                 try {
@@ -135,11 +146,13 @@ const logoutSession = (req, res) => {
     })
     .catch(err => {
         if (err == 'Error: Failed to send data.') {
-            res.status(500).send(baseResponse.error(res, err)).json().end()
-        } else if (err == 'Error: Connection not found.') {
-            res.status(404).send(baseResponse.error(res, err)).json().end()
+            res.status(500)
+        } else if (err == 'Error: Connection not found.' || err == 'Error: Session not found.') {
+            res.status(404)
+        } else { 
+            res.status(500) 
         }
-        else { res.status(500).send(baseResponse.error(res, err)).json().end() }
+        res.send(baseResponse.error(res, err)).json().end()
     })
 }
 

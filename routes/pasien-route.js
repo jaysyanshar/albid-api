@@ -12,25 +12,41 @@ router.use(validator.sessionChecker)
 router.use((req, res, next) => {
     // only bidan that can register pasien
     if (req.method == 'POST') {
-        Session.findOne({ _id: req.headers['session-id'] })
-        .then(doc => {
-            if (doc == null) { throw Error('Session not found.') }
-            if (doc.isBidan) {
+        if (req.headers['user-role'] == 'bidan') {
+            next()
+        } else {
+            let error = { message: 'Unauthorized role.' }
+            res.status(405).send(baseResponse.error(res, error)).json().end()
+        }
+    // Update Pasien Profile with specific role
+    } else if (req.method == 'PUT') {
+        if (req.headers['user-role'] == 'bidan') {
+            if (req.body.password != null) {
+                let error = { message: 'Cannot change Pasien\'s password while using Bidan role.' }
+                res.status(405).send(baseResponse.error(res, error)).json().end()
+            } else {
                 next()
-            } else {
-                throw Error('Unauthorized method.')
             }
-        })
-        .catch(err => {
-            if (err == 'Error: Session not found.') {
-                res.status(401)
-            } else if (err == 'Error: Unauthorized method.') {
-                res.status(405)
+        } else if (req.headers['user-role'] == 'pasien') {
+            if (Object.keys(req.query).length !== 0) {
+                let error = { message: 'Cannot change profile using query-params while using Pasien role.' }
+                res.status(405).send(baseResponse.error(res, error)).json().end()
             } else {
-                res.status(500)
+                req.query = { _id: req.headers['user-id'] }
+                next()
             }
-            res.send(baseResponse.error(res, err)).json().end()
-        })
+        } else {
+            let error = { message: 'Unauthorized role.' }
+            res.status(405).send(baseResponse.error(res, error)).json().end()
+        }
+    } else if (req.method == 'DELETE') {
+        if (req.headers['user-role'] == 'pasien') {
+            req.query = { _id: req.headers['user-id'] }
+            next()
+        } else {
+            let error = { message: 'Unauthorized role.' }
+            res.status(405).send(baseResponse.error(res, error)).json().end()
+        }
     } else {
         next()
     }
@@ -38,24 +54,28 @@ router.use((req, res, next) => {
 
 // Get Pasien Profile List (bidan access only)
 const getPasienList = (req, res) => {
-    Session.findOne({ _id: req.headers['session-id'] })
+    if (req.headers['user-role'] == 'bidan') {
+        crud.readMany(req, res, Pasien)
+    } else {
+        let error = { message: 'Unauthorized role.' }
+        res.status(405).send(baseResponse.error(res, error)).json().end()
+    }
+}
+
+// Delete Account
+const deletePasienAccount = (req, res) => {
+    Pasien.findOneAndDelete(req.query)
     .then(doc => {
-        if (doc == null) { throw Error('Session not found.') }
-        if (doc.isBidan) {
-            crud.readMany(req, res, Pasien)
-        } else {
-            throw Error('Unauthorized method.')
-        }
+        Session.deleteOne({ userId: doc._id, isBidan: false })
+        .then(_ => {
+            res.status(200).send(baseResponse.ok(res, doc)).json().end()
+        })
+        .catch(sessionError => {
+            res.status(400).send(baseResponse.error(res, sessionError)).json().end()
+        })
     })
     .catch(err => {
-        if (err == 'Error: Session not found.') {
-            res.status(401)
-        } else if (err == 'Error: Unauthorized method.') {
-            res.status(405)
-        } else {
-            res.status(500)
-        }
-        res.send(baseResponse.error(res, err)).json().end()
+        res.status(400).send(baseResponse.error(res, err)).end()
     })
 }
 
@@ -67,8 +87,8 @@ router.get('/', (req, res) => crud.readOne(req, res, Pasien))
 // Get Pasien Profile List (bidan only)
 router.get('/list', (req, res) => getPasienList(req, res))
 // Update Pasien Profile
-// TODO
 router.put('/', (req, res) => crud.updateOne(req, res, Pasien))
-router.delete('/', (req, res) => crud.deleteOne(req, res, Pasien))
+// Delete Account
+router.delete('/', (req, res) => deletePasienAccount(req, res))
 
 module.exports = router

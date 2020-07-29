@@ -19,38 +19,23 @@ router.use((req, res, next) => {
 })
 router.use((req, res, next) => {
     if ((req.method == 'PUT') || (req.method == 'DELETE')) {
-        Session.findOne({ _id: req.headers['session-id'] })
-        .then(doc => {
-            if (doc != null) {
-                if (doc.isBidan) {
-                    req.query = { _id: doc.userID }
-                    next()
-                } else {
-                    throw Error('Unauthorized role.')
-                }
-            } else {
-                throw Error('No document found.')
-            }
-        })
-        .catch(err => {
-            if (err == 'Error: No document found.') {
-                res.status(404)
-            } else if (err == 'Error: Unauthorized role.') {
-                res.status(403)
-            } else {
-                res.status(500)
-            }
-            res.send(baseResponse.error(res, err)).json().end()
-        })
+        if (req.headers['user-role'] == 'bidan') {
+            req.query = { _id: req.headers['user-id'] }
+            next()
+        } else {
+            let error = { message: 'Unauthorized role.' }
+            res.status(403).send(baseResponse.error(res, error)).json().end()
+        }
     } else {
         next()
     }
 })
 
 const deleteAccount = (req, res) => {
+    // Automatic deleting session after the account is deleted
     Bidan.findOneAndDelete(req.query)
     .then(doc => {
-        Session.deleteOne({ userID: doc._id, isBidan: true })
+        Session.deleteOne({ userId: doc._id, isBidan: true })
         .then(_ => {
             res.status(200).send(baseResponse.ok(res, doc)).json().end()
         })
