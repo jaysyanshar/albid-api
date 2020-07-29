@@ -22,23 +22,18 @@ router.use((req, res, next) => {
     } else if (req.method == 'PUT') {
         if (req.headers['user-role'] == 'bidan') {
             if (req.body.password != null) {
-                let error = { message: 'Cannot change Pasien\'s password while using Bidan role.' }
-                res.status(405).send(baseResponse.error(res, error)).json().end()
+                delete req.body.password
             } else {
                 next()
             }
         } else if (req.headers['user-role'] == 'pasien') {
-            if (Object.keys(req.query).length !== 0) {
-                let error = { message: 'Cannot change profile using query-params while using Pasien role.' }
-                res.status(405).send(baseResponse.error(res, error)).json().end()
-            } else {
-                req.query = { _id: req.headers['user-id'] }
-                next()
-            }
+            req.query = { _id: req.headers['user-id'] }
+            next()
         } else {
             let error = { message: 'Unauthorized role.' }
             res.status(405).send(baseResponse.error(res, error)).json().end()
         }
+    // Delete account for current Pasien only
     } else if (req.method == 'DELETE') {
         if (req.headers['user-role'] == 'pasien') {
             req.query = { _id: req.headers['user-id'] }
@@ -47,20 +42,22 @@ router.use((req, res, next) => {
             let error = { message: 'Unauthorized role.' }
             res.status(405).send(baseResponse.error(res, error)).json().end()
         }
-    } else {
+    // Get Pasien account for Bidan and current pasien only
+    } else if (req.method == 'GET') {
+        if (req.headers['user-role'] == 'bidan') {
+            next()
+        } else if (req.headers['user-role'] == 'pasien') {
+            req.query = { _id: req.headers['user-id'] }
+            next()
+        } else {
+            let error = { message: 'Unauthorized role.' }
+            res.status(405).send(baseResponse.error(res, error)).json().end()
+        }
+    }
+    else {
         next()
     }
 })
-
-// Get Pasien Profile List (bidan access only)
-const getPasienList = (req, res) => {
-    if (req.headers['user-role'] == 'bidan') {
-        crud.readMany(req, res, Pasien)
-    } else {
-        let error = { message: 'Unauthorized role.' }
-        res.status(405).send(baseResponse.error(res, error)).json().end()
-    }
-}
 
 // Delete Account
 const deletePasienAccount = (req, res) => {
@@ -82,10 +79,10 @@ const deletePasienAccount = (req, res) => {
 // EXPRESS HTTP METHODS
 // Register
 router.post('/', (req, res) => crud.createOne(req, res, Pasien))
-// Get Pasien Profile Detail
+// Get Pasien Profile Detail (bidan and current pasien only)
 router.get('/', (req, res) => crud.readOne(req, res, Pasien))
 // Get Pasien Profile List (bidan only)
-router.get('/list', (req, res) => getPasienList(req, res))
+router.get('/list', (req, res) => crud.readMany(req, res, Pasien))
 // Update Pasien Profile
 router.put('/', (req, res) => crud.updateOne(req, res, Pasien))
 // Delete Account
