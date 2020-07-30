@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const dbConfig = {
-    connectionUri: 'mongodb+srv://kota211user:kota211password@tugasakhir.2kf4g.mongodb.net/albid?retryWrites=true&w=majority'
+    connectionUri: 'mongodb+srv://kota211application:ME4HcFgYcKUvzv7v@tugasakhir.2kf4g.mongodb.net/albid?retryWrites=true&w=majority'
 }
 
 const dbConnect = (runFunction, errorFunction) => {
