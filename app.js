@@ -8,6 +8,7 @@ const credentials = require('./config/credentials')
 
 // Function
 const validator = require('./app_modules/validator')
+const handler = require('./app_modules/handler')
 
 // Router
 const bidanRoute = require('./routes/bidan-route')
@@ -21,6 +22,9 @@ const app = express()
 const runFunction = () => {
     // Notify in server side when database is connected
     console.log('Database connected.')
+
+    // Redirect Web
+    app.use('/', handler.redirectRoot)
 
     // Middleware Config
     app.use(bodyParser.json())
