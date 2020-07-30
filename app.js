@@ -5,10 +5,8 @@ const dbConnect = require('./config/db')
 
 // Values
 const credentials = require('./config/credentials')
-const httpStatusCode = require('./app_modules/http-status-code')
 
 // Function
-const baseResponse = require('./app_modules/base-response')
 const validator = require('./app_modules/validator')
 
 // Router
