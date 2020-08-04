@@ -1,9 +1,9 @@
-const credentials = require("../config/credentials")
+const routes = require("../config/routes")
 
 const handler = {
-    redirectRoot: (req, res, next) => {
+    redirectToDocs: (req, res, next) => {
         if (req.url == '/') {
-            res.redirect(credentials.apiCloudDocs)
+            res.redirect(routes.apiCloudDocs)
         } else {
             next()
         }

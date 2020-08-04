@@ -1,10 +1,12 @@
 const express = require('express')
 const crud = require('../app_modules/crud')
+const validator = require('../app_modules/validator')
+const baseResponse = require('../app_modules/base-response')
 
 const Pasien = require('../models/Pasien')
-const validator = require('../app_modules/validator')
 const Session = require('../models/Session')
-const baseResponse = require('../app_modules/base-response')
+const { role } = require('../app_modules/app-enums')
+
 const router = express.Router()
 
 // Middleware
@@ -12,7 +14,7 @@ router.use(validator.sessionChecker)
 router.use((req, res, next) => {
     // only bidan that can register pasien
     if (req.method == 'POST') {
-        if (req.headers['user-role'] == 'bidan') {
+        if (req.headers['user-role'] == role.bidan) {
             next()
         } else {
             let error = { message: 'Unauthorized role.' }
@@ -20,7 +22,7 @@ router.use((req, res, next) => {
         }
     // Update Pasien Profile with specific role
     } else if (req.method == 'PUT') {
-        if (req.headers['user-role'] == 'bidan') {
+        if (req.headers['user-role'] == role.bidan) {
             if (req.body.password != null) {
                 delete req.body.password
             }
@@ -43,7 +45,7 @@ router.use((req, res, next) => {
         }
     // Get Pasien account for Bidan and current pasien only
     } else if (req.method == 'GET') {
-        if (req.headers['user-role'] == 'bidan') {
+        if (req.headers['user-role'] == role.bidan) {
             next()
         } else if (req.headers['user-role'] == 'pasien') {
             req.query = { _id: req.headers['user-id'] }

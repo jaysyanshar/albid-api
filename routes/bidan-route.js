@@ -1,10 +1,12 @@
 const express = require('express')
 const crud = require('../app_modules/crud')
+const validator = require('../app_modules/validator')
+const baseResponse = require('../app_modules/base-response')
 
 const Bidan = require('../models/Bidan')
-const validator = require('../app_modules/validator')
 const Session = require('../models/Session')
-const baseResponse = require('../app_modules/base-response')
+const { role } = require('../app_modules/app-enums')
+
 const router = express.Router()
 
 // Middleware
@@ -19,7 +21,7 @@ router.use((req, res, next) => {
 })
 router.use((req, res, next) => {
     if ((req.method == 'PUT') || (req.method == 'DELETE')) {
-        if (req.headers['user-role'] == 'bidan') {
+        if (req.headers['user-role'] == role.bidan) {
             req.query = { _id: req.headers['user-id'] }
             next()
         } else {

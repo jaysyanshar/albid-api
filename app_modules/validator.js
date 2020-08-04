@@ -1,5 +1,7 @@
 const baseResponse = require('./base-response')
 const credentials = require('../config/credentials')
+const role = require('../app_modules/app-enums').role
+
 const Session = require('../models/Session')
 
 const validator = {
@@ -28,7 +30,7 @@ const validator = {
             Session.findOne({ _id: headers['session-id'] })
             .then(doc => {
                 if (doc != null) {
-                    req.headers['user-role'] = doc.isBidan ? 'bidan' : 'pasien'
+                    req.headers['user-role'] = doc.isBidan ? role.bidan : role.pasien
                     req.headers['user-id'] = doc.userId
                     next()
                 } else {
@@ -50,6 +52,24 @@ const validator = {
             res.status(401).send(baseResponse.error(res, error)).json().end()
         }
     },
+    roleChecker: (req, res, next, requiredRole, {ifTrue=undefined, ifFalse=undefined}) => {
+        if (req.headers['user-role'] == requiredRole) {
+            if (ifTrue != undefined) {
+                ifTrue()
+            } else {
+                next()
+            }
+        } else {
+            if (ifFalse != undefined) {
+                ifFalse()
+            } else {
+                let err = {
+                    message: 'Unauthorized role.'
+                }
+                res.status(405).send(baseResponse.error(res, err)).json().end()
+            }
+        }
+    }
 }
 
 module.exports = validator
