@@ -2,12 +2,12 @@ const baseResponse = require("./base-response")
 
 // CRUD
 const crud = {
-    createOne: (req, res, Model) => {
+    createOne: (req, res, Model, isCompleteDoc=false) => {
         Model(req.body).save()
         .then(doc => {
             try {
                 res.status(201)
-                res.send(baseResponse.ok(res, doc)).json().end()
+                res.send(baseResponse.ok(res, doc, isCompleteDoc)).json().end()
             } catch (e) {
                 throw Error('Failed to send data.')
             }

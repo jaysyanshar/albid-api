@@ -6,6 +6,7 @@ const baseResponse = require('../app_modules/base-response')
 const Bidan = require('../models/Bidan')
 const Session = require('../models/Session')
 const { role } = require('../app_modules/app-enums')
+const e = require('express')
 
 const router = express.Router()
 
@@ -31,6 +32,17 @@ router.use((req, res, next) => {
     } else {
         next()
     }
+})
+
+router.use((req, res, next) => {
+    if (req.method == 'GET') {
+        if (req.headers['user-role'] == role.bidan) {
+            if (Object.keys(req.query).length === 0 && req.query.constructor === Object) {
+                req.query = { _id: req.headers['user-id'] }
+            }
+        }
+    }
+    next()
 })
 
 const deleteAccount = (req, res) => {

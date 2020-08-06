@@ -32,14 +32,14 @@ const upsertSession = (req, res, Model) => {
                     ]
                 }
                 req.body = sessionData
-                crud.createOne(req, res, Session)
+                crud.createOne(req, res, Session, true)
             } else {
                 let sent = false
                 for (let i = 0; i < sessionDoc.login.length; i++) {
                     if (sessionDoc.login[i].connection == clientIp) {
                         sessionDoc.login[i].date = Date.now()
                         sessionDoc.save()
-                        res.status(200).send(baseResponse.ok(res, sessionDoc)).json().end()
+                        res.status(200).send(baseResponse.ok(res, sessionDoc, true)).json().end()
                         sent = true
                         break
                     }
@@ -47,7 +47,7 @@ const upsertSession = (req, res, Model) => {
                 if (sent == false) {
                     sessionDoc.login.push({ connection: clientIp, date: Date.now() })
                     sessionDoc.save()
-                    res.status(200).send(baseResponse.ok(res, sessionDoc)).json().end()
+                    res.status(200).send(baseResponse.ok(res, sessionDoc, true)).json().end()
                     sent = true
                 }
                 if (sent == false) {
@@ -92,7 +92,7 @@ const reLoginSession = (req, res) => {
                 doc.login[i].date = Date.now()
                 try {
                     doc.save()
-                    res.status(200).send(baseResponse.ok(res, doc)).json().end()
+                    res.status(200).send(baseResponse.ok(res, doc, true)).json().end()
                     sent = true
                 } catch (e) {
                     throw Error('Failed to send data.')
