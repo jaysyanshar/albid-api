@@ -4,7 +4,7 @@
   "description": "API untuk Aplikasi Layanan Kebidanan",
   "main": "app.js",
   "scripts": {
-    "test": "",
+    "test": "mocha",
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
@@ -23,6 +23,8 @@
     "request-ip": "^2.1.3"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "needle": "^2.5.0",
     "request": "^2.88.2"
   }
 }

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const dbConnect = require('./config/db')
 
 // Values
-const routes = require('./config/routes')
+const path = require('./config/path')
 
 // Function
 const validator = require('./app_modules/validator')
@@ -35,11 +35,11 @@ const runFunction = () => {
     const port = process.env.port || 4000
 
     // Using specific URI path to listen
-    const root = routes.apiRoute.root
-    app.use(root + routes.apiRoute.session, sessionRoute)
-    app.use(root + routes.apiRoute.bidan, bidanRoute)
-    app.use(root + routes.apiRoute.pasien, pasienRoute)
-    app.use(root + routes.apiRoute.rekamMedis, rekamMedisRoute)
+    const root = path.apiPath.root
+    app.use(root + path.apiPath.session, sessionRoute)
+    app.use(root + path.apiPath.bidan, bidanRoute)
+    app.use(root + path.apiPath.pasien, pasienRoute)
+    app.use(root + path.apiPath.rekamMedis, rekamMedisRoute)
 
     // Listening on server
     app.listen(port, () => console.log('Listening on port ', port))

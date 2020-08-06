@@ -1,8 +1,8 @@
-const routes = {
-    apiLocalHost: 'localhost:3000',
+const path = {
+    apiLocalHost: 'localhost:4000',
     apiCloudHost: 'https://albid-api.azurewebsites.net',
     apiCloudDocs: 'https://documenter.getpostman.com/view/10769541/T1DtfGBw',
-    apiRoute: {
+    apiPath: {
         root: '/api',
         session: '/session',
         bidan: '/bidan',
@@ -11,4 +11,4 @@ const routes = {
     }
 }
 
-module.exports = routes
+module.exports = path
