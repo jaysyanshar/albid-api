@@ -1,4 +1,5 @@
 const baseResponse = require("./base-response")
+const flatten = require('flat')
 
 // CRUD
 const crud = {
@@ -80,6 +81,7 @@ const crud = {
         })
     },
     updateOne: (req, res, Model) => {
+        req.body = flatten(req.body)
         Model.findOneAndUpdate(req.query, req.body, { useFindAndModify: false })
         .then(doc => {
             try {
