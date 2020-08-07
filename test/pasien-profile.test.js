@@ -269,6 +269,7 @@ describe('Pasien Profile Test', () => {
     // UPDATE PROFILE
     describe('Update Profile', () => {
         let updateData = {
+            password: 'mypasientestpassword',
             kontak: {
                 email: 'mypasientestemail@test.com'
             }

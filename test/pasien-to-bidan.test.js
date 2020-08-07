@@ -11,14 +11,14 @@ const bidanUri = path.apiLocalHost + path.apiPath.root + path.apiPath.bidan
 const pasienUri = path.apiLocalHost + path.apiPath.root + path.apiPath.pasien
 const sessionUri = path.apiLocalHost + path.apiPath.root + path.apiPath.session
 
-let options = {
+let bidanOptions = {
     headers: {
         'X-API-Key': apiKey
     },
     json: true
 }
 
-let data = {
+let bidanData = {
     nik: '3210000000000000',
     password: 'mytestpassword',
     nama: 'My Test Name',
@@ -27,13 +27,11 @@ let data = {
     }
 }
 
-let loginInfo = {
-    noHP: data.kontak.noHP,
-    password: data.password,
+let bidanLogininfo = {
+    noHP: bidanData.kontak.noHP,
+    password: bidanData.password,
     isBidan: true
 }
-
-let myVar = {}
 
 let pasienOptions = {
     headers: {
@@ -56,121 +54,50 @@ let pasienLoginInfo = {
     isBidan: false
 }
 
-describe('Bidan to Pasien Test', () => {
+let myVar = {}
+
+describe('Pasien to Bidan Test', () => {
     // initial action
     describe('Initial Action', () => {
-        // sign up first
-        it('sign up: should return 201', (done) => {
-            needle.post(bidanUri, JSON.stringify(data), options, (err, res) => {
+        // sign up bidan first
+        it('sign up bidan: should return 201', (done) => {
+            needle.post(bidanUri, JSON.stringify(bidanData), bidanOptions, (err, res) => {
                 try {
                     if (err) { throw err }
                     let doc = res.body
                     if (doc.docId == undefined) { throw doc }
                     expect(doc.httpStatus.statusCode).equal(201)
+                    myVar.bidanId = doc.docId
                     done()
                 } catch (e) {
                     return
                 }
             })
         })
-        // login
+        // login bidan
         it('login bidan: should return 201', (done) => {
-            needle.post(sessionUri, JSON.stringify(loginInfo), options, (err, res) => {
+            needle.post(sessionUri, JSON.stringify(bidanLogininfo), bidanOptions, (err, res) => {
                 try {
                     if (err) { throw err }
                     let doc = res.body
                     if (doc.doc._id == undefined) { throw doc }
                     expect(doc.httpStatus.statusCode).equal(201)
-                    options.headers['Session-ID'] = doc.doc._id
+                    bidanOptions.headers['Session-ID'] = doc.doc._id
                     done()
                 } catch (e) {
                     return
                 }
             })
         })
-        // create dummy pasien
+        // create pasien
         it('register pasien: should return 201', (done) => {
-            needle.post(pasienUri, JSON.stringify(pasienData), options, (err, res) => {
+            needle.post(pasienUri, JSON.stringify(pasienData), bidanOptions, (err, res) => {
                 try {
                     if (err) { throw err }
                     let doc = res.body
                     if (doc.docId == undefined) { throw doc }
                     expect(doc.httpStatus.statusCode).equal(201)
                     myVar.pasienId = doc.docId
-                    done()
-                } catch (e) {
-                    return
-                }
-            })
-        })
-    })
-    // get pasien's profile
-    describe('Get Pasien\'s Profile', () => {
-        // in object
-        it('get pasien: should return registered data in object', (done) => {
-            needle.get(pasienUri + '?_id=' + myVar.pasienId, options, (err, res) => {
-                try {
-                    if (err) { throw err }
-                    let body = res.body
-                    if (body.doc._id == undefined) { throw body }
-                    expect(body.doc._id).equal(myVar.pasienId)
-                    expect(body.doc.nik).equal(pasienData.nik)
-                    expect(body.doc.nama).equal(pasienData.nama)
-                    expect(body.doc.kontak.noHP).equal(pasienData.kontak.noHP)
-                    done()
-                } catch (e) {
-                    return
-                }
-            })
-        })
-        // get pasien list
-        it('get pasien list: should return registered data in array of object', (done) => {
-            needle.get(pasienUri + '/list?_id=' + myVar.pasienId, options, (err, res) => {
-                try {
-                    if (err) { throw err }
-                    let body = res.body
-                    if (body.doc[0]._id == undefined) { throw body }
-                    expect(body.doc[0]._id).equal(myVar.pasienId)
-                    expect(body.doc[0].nik).equal(pasienData.nik)
-                    expect(body.doc[0].nama).equal(pasienData.nama)
-                    expect(body.doc[0].kontak.noHP).equal(pasienData.kontak.noHP)
-                    done()
-                } catch (e) {
-                    return
-                }
-            })
-        })
-    })
-    // Update Pasien
-    describe('Update Pasien\'s Profile', () => {
-        let updateData = {
-            kontak: {
-                email: 'mypasienemail@test.id'
-            }
-        }
-        it('update pasien: should return 200', (done) => {
-            needle.put(pasienUri + '?_id=' + myVar.pasienId, JSON.stringify(updateData), options, (err, res) => {
-                try {
-                    if (err) { throw err }
-                    let body = res.body
-                    if (body.docId == undefined) { throw body }
-                    expect(body.httpStatus.statusCode).equal(200)
-                    done()
-                } catch (e) {
-                    return
-                }
-            })
-        })
-    })
-    describe('Final Action', () => {
-        // delete bidan account
-        it('delete bidan\'s account: should return 200', (done) => {
-            needle.delete(bidanUri, null, options, (err, res) => {
-                try {
-                    if (err) { throw err }
-                    let doc = res.body
-                    if (doc.docId == undefined) { throw doc }
-                    expect(doc.httpStatus.statusCode).equal(200)
                     done()
                 } catch (e) {
                     return
@@ -186,6 +113,59 @@ describe('Bidan to Pasien Test', () => {
                     if (doc.doc._id == undefined) { throw doc }
                     expect(doc.httpStatus.statusCode).equal(201)
                     pasienOptions.headers['Session-ID'] = doc.doc._id
+                    done()
+                } catch (e) {
+                    return
+                }
+            })
+        })
+    })
+    // get bidan's profile
+    describe('Get Bidan\'s Profile', () => {
+        // in object
+        it('get bidan: should return registered data in object', (done) => {
+            needle.get(bidanUri + '?_id=' + myVar.bidanId, pasienOptions, (err, res) => {
+                try {
+                    if (err) { throw err }
+                    let body = res.body
+                    if (body.doc._id == undefined) { throw body }
+                    expect(body.doc._id).equal(myVar.bidanId)
+                    expect(body.doc.nik).equal(bidanData.nik)
+                    expect(body.doc.nama).equal(bidanData.nama)
+                    expect(body.doc.kontak.noHP).equal(bidanData.kontak.noHP)
+                    done()
+                } catch (e) {
+                    return
+                }
+            })
+        })
+        // get pasien list
+        it('get bidan list: should return registered data in array of object', (done) => {
+            needle.get(bidanUri + '/list?_id=' + myVar.bidanId, pasienOptions, (err, res) => {
+                try {
+                    if (err) { throw err }
+                    let body = res.body
+                    if (body.doc[0]._id == undefined) { throw body }
+                    expect(body.doc[0]._id).equal(myVar.bidanId)
+                    expect(body.doc[0].nik).equal(bidanData.nik)
+                    expect(body.doc[0].nama).equal(bidanData.nama)
+                    expect(body.doc[0].kontak.noHP).equal(bidanData.kontak.noHP)
+                    done()
+                } catch (e) {
+                    return
+                }
+            })
+        })
+    })
+    describe('Final Action', () => {
+        // delete bidan account
+        it('delete bidan\'s account: should return 200', (done) => {
+            needle.delete(bidanUri, null, bidanOptions, (err, res) => {
+                try {
+                    if (err) { throw err }
+                    let doc = res.body
+                    if (doc.docId == undefined) { throw doc }
+                    expect(doc.httpStatus.statusCode).equal(200)
                     done()
                 } catch (e) {
                     return
