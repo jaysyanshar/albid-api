@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
-const modelEnums = require('../app_modules/model-enums')
+const { rekamMedisEnums } = require('../app_modules/model-enums')
 
 const Schema = mongoose.Schema
 
 const rekamMedisSchema = new Schema({
-    idBidan: { type: mongoose.Types.ObjectId, trim: true, required: true, index: true, },
-    idPasien: { type: mongoose.Types.ObjectId, trim: true, required: true, index: true, },
+    idBidan: { type: mongoose.Types.ObjectId, required: true, index: true, },
+    idPasien: { type: mongoose.Types.ObjectId, required: true, index: true, },
     tanggalKunjungan: { type: Date, required: true, default: Date.now, },
     penanggungJawab: {
         nama: { type: String, trim: true },
@@ -14,22 +14,22 @@ const rekamMedisSchema = new Schema({
             type: String, 
             trim: true, 
             uppercase: true, 
-            enum: Object.values(modelEnums.hubungan),
-            default: modelEnums.hubungan.suami,
+            enum: Object.values(rekamMedisEnums.hubungan),
+            required: true
         },
     },
     perujuk: { 
         type: String, 
         trim: true, 
+        enum: Object.values(rekamMedisEnums.perujuk),
+        required: true,
         uppercase: true, 
-        enum: Object.values(modelEnums.perujuk),
-        default: modelEnums.perujuk.bidan,
     },
     jenisPemeriksaan: {
         type: String,
         trim: true,
-        enum: Object.values(modelEnums.pemeriksaan),
-        default: modelEnums.pemeriksaan.asesmenAwal,
+        enum: Object.values(rekamMedisEnums.pemeriksaan),
+        required: true,
         uppercase: true,
     }
 },

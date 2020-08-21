@@ -7,7 +7,13 @@ const path = {
         session: '/session',
         bidan: '/bidan',
         pasien: '/pasien',
-        rekamMedis: '/rekamMedis'
+        rekamMedis: '/rekamMedis',
+        asesmenAwal: '/asesmenAwal',
+        subjektif: '/subjektif',
+        objektif: '/objektif',
+        lampiran: '/lampiran',
+        usg: '/usg',
+        ctg: '/ctg',
     }
 }
 

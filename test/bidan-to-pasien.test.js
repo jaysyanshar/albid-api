@@ -125,7 +125,7 @@ describe('Bidan to Pasien Test', () => {
         })
         // get pasien list
         it('get pasien list: should return registered data in array of object', (done) => {
-            needle.get(pasienUri + '/list?_id=' + myVar.pasienId, options, (err, res) => {
+            needle.get(pasienUri + '/list?nama=' + pasienData.nama, options, (err, res) => {
                 try {
                     if (err) { throw err }
                     let body = res.body

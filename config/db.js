@@ -10,6 +10,7 @@ const dbConfig = {
 }
 
 const dbConnect = (runFunction, errorFunction) => {
+    mongoose.Promise = global.Promise
     mongoose.connect(dbConfig.connectionUri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(
         _ => { runFunction() },

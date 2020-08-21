@@ -1,4 +1,7 @@
-module.exports = {
+///////////////
+// Rekam Medis
+///////////////
+const rekamMedisEnums = {
     hubungan: Object.freeze({
         suami: 'SUAMI',
         orangtua: 'ORANGTUA',
@@ -29,4 +32,136 @@ module.exports = {
         bayi: 'BAYI',
         neonatus: 'NEONATUS'
     }),
+}
+
+//////////////////
+// ASESMEN AWAL
+//////////////////
+const asesmenAwalSubjektifEnums = {
+    riwayatKontrasepsi: Object.freeze({
+        tidakAda: 'TIDAK ADA',
+        pil: 'PIL',
+        suntik: 'SUNTIK',
+        iud: 'IUD',
+        implan: 'IMPLAN',
+        lainnya: 'LAINNYA'
+    }),
+
+    riwayatGynecolog: Object.freeze({
+        infertilitas: 'INFERTILITAS',
+        infeksiVirus: 'INFEKSI VIRUS',
+        pms: 'PMS',
+        cervicitisAkut: 'CERVICITIS AKUT',
+        cervicitisKronis: 'CERVICITIS KRONIS',
+        tidakAda: 'TIDAK ADA'
+    }),
+
+    metodePersalinan: Object.freeze({
+        normal: 'NORMAL',
+        operasiCaesar: 'OPERASI CAESAR',
+        dibantuAlat: 'DIBANTU ALAT',
+        lainnya: 'LAINNYA'
+    }),
+
+    penolongPersalinan: Object.freeze({
+        bidan: 'BIDAN',
+        dokter: 'DOKTER',
+        paraji: 'PARAJI',
+        lainnya: 'LAINNYA'
+    }),
+
+    jenisKelamin: Object.freeze({
+        lakiLaki: 'LAKI-LAKI',
+        perempuan: 'PEREMPUAN'
+    }),
+
+    provokatif: Object.freeze({
+        benturan: 'BENTURAN',
+        spontan: 'SPONTAN',
+        lainnya: 'LAINNYA'
+    }),
+
+    quality: Object.freeze({
+        sepertiTertusuk: 'SEPERTI TERTUSUK',
+        berdenyutTerbakarTeriris: 'BERDENYUT TERBAKAR TERIRIS',
+        lainnya: 'LAINNYA'
+    }),
+
+    severity: Object.freeze({
+        nfs: 'NFS',
+        flaccs: 'FLACCS',
+        wongBaker: 'WONG BAKER',
+        lainnya: 'LAINNYA'
+    }),
+
+    peredaNyeri: Object.freeze({
+        minum: 'MINUM',
+        obat: 'OBAT',
+        istirahat: 'ISTIRAHAT',
+        berubahPosisi: 'BERUBAH POSISI',
+        mendengarkanMusik: 'MENDENGARKAN MUSIK',
+        lainnya: 'LAINNYA'
+    }),
+
+    subjekEdukasi: Object.freeze({
+        pasien: 'PASIEN',
+        keluargaPasien: 'KELUARGA PASIEN',
+        temanPasien: 'TEMAN PASIEN',
+        lainnya: 'LAINNYA'
+    }),
+
+    materiEdukasi: Object.freeze({
+        diagnosaPenyakit: 'DIAGNOSA PENYAKIT',
+        hasilPemeriksaanPenunjang: 'HASIL PEMERIKSAAN PENUNJANG',
+        terapiPengobatan: 'TERAPI PENGOBATAN',
+        rencanaTindakan: 'RENCANA TINDAKAN',
+        pemberianVaksin: 'PEMBERIAN VAKSIN',
+        lainnya: 'LAINNYA'
+    })
+}
+
+// ASESMEN AWAL OBJEKTIF
+const asesmenAwalObjektifEnums = Object.freeze({
+    keadaanUmum: {
+        tampakTidakSakit: 'TAMPAK TIDAK SAKIT',
+        sakitRingan: 'SAKIT RINGAN',
+        sakitSedang: 'SAKIT SEDANG',
+        sakitBerat: 'SAKIT BERAT',
+    },
+
+    kesadaran: {
+        composMentis: 'COMPOS MENTIS',
+        apatis: 'APATIS',
+        somnolen: 'SOMNOLEN',
+        sopor: 'SOPOR',
+        coma: 'COMA',
+    },
+
+    reflex: {
+        normal: 'NORMAL',
+        hipo: 'HIPO',
+        hyper: 'HYPER',
+    },
+
+    keputihan: {
+        bening: 'BENING',
+        kuning: 'KUNING',
+        hijau: 'HIJAU'
+    },
+
+    lochea: {
+        rubra: 'RUBRA',
+        sanguinolenta: 'SANGUINOLENTA',
+        serosa: 'SEROSA',
+        alba: 'ALBA',
+        purulenta: 'PURULENTA',
+    },
+
+    
+})
+
+module.exports = { 
+    rekamMedisEnums, 
+    asesmenAwalSubjektifEnums,
+    asesmenAwalObjektifEnums
 }

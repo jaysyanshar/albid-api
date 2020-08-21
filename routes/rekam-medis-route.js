@@ -42,8 +42,9 @@ router.use((req, res, next) => {
         })
     }
     else if (req.method == 'DELETE') {
-        err = { message: 'Medical Record can not be deleted.' }
-        res.status(405).send(baseResponse.error(res, err)).json().end()
+        validator.roleChecker(req, res, next, role.bidan, {}) // for test purpose only
+        // err = { message: 'Medical Record can not be deleted.' }
+        // res.status(405).send(baseResponse.error(res, err)).json().end()
     }
     else {
         next()
@@ -55,6 +56,6 @@ router.post('/', (req, res) => crud.createOne(req, res, RekamMedis))
 router.get('/', (req, res) => crud.readOne(req, res, RekamMedis))
 router.get('/list', (req, res) => crud.readMany(req, res, RekamMedis))
 router.put('/', (req, res) => crud.updateOne(req, res, RekamMedis))
-// router.delete('/', (req, res) => crud.deleteOne(req, res, RekamMedis))
+router.delete('/', (req, res) => crud.deleteOne(req, res, RekamMedis)) // for test purpose only
 
 module.exports = router
