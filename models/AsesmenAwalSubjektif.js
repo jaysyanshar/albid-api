@@ -161,4 +161,4 @@ const asesmenAwalSubjektifSchema = new Schema({
 // { collection: 'asesmenAwalSubjektif' }
 )
 
-module.exports = mongoose.model('AsesmenAwalSubjektif', asesmenAwalSubjektifSchema)
+module.exports = asesmenAwalSubjektifSchema
