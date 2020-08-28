@@ -3,6 +3,8 @@ const validator = require('../app_modules/validator')
 const crud = require('../app_modules/crud')
 
 const RekamMedis = require('../models/RekamMedis')
+const Bidan = require('../models/Bidan')
+const Pasien = require('../models/Pasien')
 const { role } = require('../app_modules/app-enums')
 const baseResponse = require('../app_modules/base-response')
 
@@ -13,7 +15,31 @@ router.use(validator.sessionChecker)
 router.use((req, res, next) => {
     if (req.method == 'POST') {
         // bidan-only
-        validator.roleChecker(req, res, next, role.bidan, {})
+        validator.roleChecker(req, res, next, role.bidan, {
+            ifTrue: () => {
+                Bidan.findOne({ _id: req.body.idBidan }, '_id')
+                .then(doc => {
+                    if (doc == undefined) throw Error('Bidan not found.')
+                    else {
+                        Pasien.findOne({ _id: req.body.idPasien }, '_id')
+                        .then(doc => {
+                            if (doc == undefined) throw Error('Pasien not found.')
+                            else next()
+                        })
+                        .catch(err => {
+                            if (err == 'Error: Pasien not found.') res.status(404)
+                            else res.status(500)
+                            res.send(baseResponse.error(res, err)).json().end()
+                        })
+                    }
+                })
+                .catch(err => {
+                    if (err == 'Error: Bidan not found.') res.status(404)
+                    else res.status(500)
+                    res.send(baseResponse.error(res, err)).json().end()
+                })
+            }
+        })
     }
     else if (req.method == 'GET') {
         validator.roleChecker(req, res, next, role.bidan, {
