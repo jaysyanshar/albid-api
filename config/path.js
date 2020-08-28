@@ -1,6 +1,6 @@
 const path = {
     apiLocalHost: 'localhost:4000',
-    apiCloudHost: 'https://albid-api.azurewebsites.net',
+    apiCloudHost: 'https://albid-mirror.azurewebsites.net',
     apiCloudDocs: 'https://documenter.getpostman.com/view/10769541/T1DtfGBw',
     apiPath: {
         root: '/api',
