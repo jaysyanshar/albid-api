@@ -7,6 +7,9 @@ const Bidan = require('../models/Bidan')
 const Pasien = require('../models/Pasien')
 const { role } = require('../app_modules/app-enums')
 const baseResponse = require('../app_modules/base-response')
+const { rekamMedisEnums } = require('../app_modules/model-enums')
+const AsesmenAwal = require('../models/AsesmenAwal')
+const jenisPemeriksaan = rekamMedisEnums.pemeriksaan
 
 const router = express.Router()
 
@@ -68,9 +71,7 @@ router.use((req, res, next) => {
         })
     }
     else if (req.method == 'DELETE') {
-        validator.roleChecker(req, res, next, role.bidan, {}) // for test purpose only
-        // err = { message: 'Medical Record can not be deleted.' }
-        // res.status(405).send(baseResponse.error(res, err)).json().end()
+        validator.roleChecker(req, res, next, role.bidan, {})
     }
     else {
         next()
@@ -82,6 +83,22 @@ router.post('/', (req, res) => crud.createOne(req, res, RekamMedis))
 router.get('/', (req, res) => crud.readOne(req, res, RekamMedis))
 router.get('/list', (req, res) => crud.readMany(req, res, RekamMedis))
 router.put('/', (req, res) => crud.updateOne(req, res, RekamMedis))
-router.delete('/', (req, res) => crud.deleteOne(req, res, RekamMedis)) // for test purpose only
+router.delete('/', (req, res) => {
+    RekamMedis.findOne(req.query, 'jenisPemeriksaan')
+    .then(doc => {
+        console.log(doc)
+        console.log(req.query)
+        if (doc.jenisPemeriksaan == jenisPemeriksaan.asesmenAwal) {
+            AsesmenAwal.findOneAndDelete({ idRekamMedis: req.query._id })
+            .then(doc => {})
+            .catch(err => {})
+        }
+        crud.deleteOne(req, res, RekamMedis)
+    })
+    .catch(err => {
+        res.status(500)
+        res.send(baseResponse.error(res, err)).json().end()
+    })
+})
 
 module.exports = router

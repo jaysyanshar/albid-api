@@ -23,6 +23,15 @@ router.use((req, res, next) => {
     else if (req.method == 'PUT') {
         validator.roleChecker(req, res, next, role.bidan, {})
     }
+    else if (req.method == 'GET') {
+        next()
+    }
+    else if (req.method == 'DELETE') {
+        let err = {
+            message: 'Can not delete sub-document. Please delete the RekamMedis instead to delete this document.'
+        }
+        res.status(403).send(baseResponse.error(res, err)).json().end()
+    }
     else {
         next()
     }
@@ -71,5 +80,7 @@ router.put('/objektif', (req, res) => {
     }
     crud.updateOne(req, res, AsesmenAwal)
 })
+
+router.get('/', (req, res) => { crud.readOne(req, res, AsesmenAwal) })
 
 module.exports = router
