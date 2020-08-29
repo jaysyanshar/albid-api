@@ -65,4 +65,11 @@ router.put('/subjektif', (req, res) => {
     crud.updateOne(req, res, AsesmenAwal)
 })
 
+router.put('/objektif', (req, res) => {
+    req.body = {
+        objektif: req.body
+    }
+    crud.updateOne(req, res, AsesmenAwal)
+})
+
 module.exports = router

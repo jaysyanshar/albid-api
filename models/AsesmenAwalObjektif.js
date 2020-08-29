@@ -31,7 +31,7 @@ const asesmenAwalObjektifSchema = new Schema({
             cloasmaGravidarum: Boolean, // ada/tidak
         },
         mata: {
-            anemisKonjungtiva: Boolean, // ya/tidak
+            konjungtivaAnemis: Boolean, // ya/tidak
         },
         leher: {
             pembesaranKelenjarTiroid: { type: String, trim: true },
@@ -43,6 +43,7 @@ const asesmenAwalObjektifSchema = new Schema({
             putingSusuMenonjol: Boolean, // ya/tidak
             kolostrum: Boolean, // ada/tidak
             benjolan: { type: String, trim: true },
+            retraksi: Boolean // ada/tidak
         },
         ekstremitasAtasBawah: {
             oedem: Boolean, // ada/tidak
