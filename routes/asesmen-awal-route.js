@@ -26,13 +26,26 @@ router.use((req, res, next) => {
 })
 
 router.post('/', (req, res) => {
-    RekamMedis.findOne({ _id: req.body.idRekamMedis })
+    RekamMedis.findOne({ _id: req.body.idRekamMedis }, 'jenisPemeriksaan')
     .then(doc => {
         if (doc == null) { throw Error('Retrieved document is null.') }
         if (doc.jenisPemeriksaan != rekamMedisEnums.pemeriksaan.asesmenAwal) {
             throw Error('Invalid reference ID.')
         }
-        else crud.createOne(req, res, AsesmenAwal)
+        else {
+            AsesmenAwal.findOne({ idRekamMedis: doc._id }, 'idRekamMedis')
+            .then(doc => {
+                if (doc == undefined) {
+                    crud.createOne(req, res, AsesmenAwal)
+                }
+                else throw Error('This document already exist, use update instead.')
+            })
+            .catch(err => {
+                if (err == 'Error: This document already exist, use update instead.') res.status(409)
+                else res.status(500)
+                res.send(baseResponse.error(res, err)).json().end()
+            })
+        }
     })
     .catch(err => {
         if (err == 'Error: Retrieved document is null.') res.status(404)
