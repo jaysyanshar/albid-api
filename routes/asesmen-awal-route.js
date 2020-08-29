@@ -20,6 +20,9 @@ router.use((req, res, next) => {
     if (req.method == 'POST') {
         validator.roleChecker(req, res, next, role.bidan, {})
     }
+    else if (req.method == 'PUT') {
+        validator.roleChecker(req, res, next, role.bidan, {})
+    }
     else {
         next()
     }
@@ -53,6 +56,13 @@ router.post('/', (req, res) => {
         else res.status(500)
         res.send(baseResponse.error(res, err)).json().end()
     })
+})
+
+router.put('/subjektif', (req, res) => {
+    req.body = {
+        subjektif: req.body
+    }
+    crud.updateOne(req, res, AsesmenAwal)
 })
 
 module.exports = router
