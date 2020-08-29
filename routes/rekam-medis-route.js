@@ -86,8 +86,6 @@ router.put('/', (req, res) => crud.updateOne(req, res, RekamMedis))
 router.delete('/', (req, res) => {
     RekamMedis.findOne(req.query, 'jenisPemeriksaan')
     .then(doc => {
-        console.log(doc)
-        console.log(req.query)
         if (doc.jenisPemeriksaan == jenisPemeriksaan.asesmenAwal) {
             AsesmenAwal.findOneAndDelete({ idRekamMedis: req.query._id })
             .then(doc => {})
