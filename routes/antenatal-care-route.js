@@ -1,15 +1,10 @@
-// const fs = require('fs')
-// const mongoose = require('mongoose')
-// const gridfs = require('gridfs-stream')
-// gridfs.mongo = mongoose.mongo
-
 const express = require('express')
 const validator = require('../app_modules/validator')
 const { role } = require('../app_modules/app-enums')
 const { rekamMedisEnums } = require('../app_modules/model-enums')
 
-const AsesmenAwal = require('../models/AsesmenAwal')
 const RekamMedis = require('../models/RekamMedis')
+const AntenatalCare = require('../models/AntenatalCare')
 const crud = require('../app_modules/crud')
 const baseResponse = require('../app_modules/base-response')
 
@@ -41,14 +36,14 @@ router.post('/', (req, res) => {
     RekamMedis.findOne({ _id: req.body.idRekamMedis }, 'jenisPemeriksaan')
     .then(doc => {
         if (doc == null) { throw Error('Retrieved document is null.') }
-        if (doc.jenisPemeriksaan != rekamMedisEnums.pemeriksaan.asesmenAwal) {
+        if (doc.jenisPemeriksaan != rekamMedisEnums.pemeriksaan.anc) {
             throw Error('Invalid reference ID.')
         }
         else {
-            AsesmenAwal.findOne({ idRekamMedis: doc._id }, 'idRekamMedis')
+            AntenatalCare.findOne({ idRekamMedis: doc._id }, 'idRekamMedis')
             .then(doc => {
                 if (doc == undefined) {
-                    crud.createOne(req, res, AsesmenAwal)
+                    crud.createOne(req, res, AntenatalCare)
                 }
                 else throw Error('This document already exist, use update instead.')
             })
@@ -67,20 +62,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.put('/subjektif', (req, res) => {
-    req.body = {
-        subjektif: req.body
-    }
-    crud.updateOne(req, res, AsesmenAwal)
-})
-
-router.put('/objektif', (req, res) => {
-    req.body = {
-        objektif: req.body
-    }
-    crud.updateOne(req, res, AsesmenAwal)
-})
-
-router.get('/', (req, res) => { crud.readOne(req, res, AsesmenAwal) })
+router.put('/', (req, res) => { crud.updateOne(req, res, AntenatalCare) })
+router.get('/', (req, res) => { crud.readOne(req, res, AntenatalCare) })
 
 module.exports = router

@@ -16,6 +16,7 @@ const pasienRoute = require('./routes/pasien-route')
 const sessionRoute = require('./routes/session-route')
 const rekamMedisRoute = require('./routes/rekam-medis-route')
 const asesmenAwalRoute = require('./routes/asesmen-awal-route')
+const antenatalCareRoute = require('./routes/antenatal-care-route')
 
 // Init App
 const app = express()
@@ -42,6 +43,7 @@ const runFunction = () => {
     app.use(root + path.apiPath.pasien, pasienRoute)
     app.use(root + path.apiPath.rekamMedis, rekamMedisRoute)
     app.use(root + path.apiPath.asesmenAwal, asesmenAwalRoute)
+    app.use(root + path.apiPath.anc, antenatalCareRoute)
 
     // Listening on server
     app.listen(port, () => console.log('Listening on port ', port))

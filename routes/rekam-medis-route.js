@@ -9,6 +9,7 @@ const { role } = require('../app_modules/app-enums')
 const baseResponse = require('../app_modules/base-response')
 const { rekamMedisEnums } = require('../app_modules/model-enums')
 const AsesmenAwal = require('../models/AsesmenAwal')
+const AntenatalCare = require('../models/AntenatalCare')
 const jenisPemeriksaan = rekamMedisEnums.pemeriksaan
 
 const router = express.Router()
@@ -88,6 +89,11 @@ router.delete('/', (req, res) => {
     .then(doc => {
         if (doc.jenisPemeriksaan == jenisPemeriksaan.asesmenAwal) {
             AsesmenAwal.findOneAndDelete({ idRekamMedis: req.query._id })
+            .then(doc => {})
+            .catch(err => {})
+        }
+        if (doc.jenisPemeriksaan == jenisPemeriksaan.anc) {
+            AntenatalCare.findOneAndDelete({ idRekamMedis: req.query._id })
             .then(doc => {})
             .catch(err => {})
         }

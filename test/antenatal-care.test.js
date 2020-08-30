@@ -5,10 +5,13 @@
 const expect = require('chai').expect
 const needle = require('needle')
 
-let { uri, options, user, login, rekamMedis, asesmenAwal } = require('../test_modules/test_data')
+const { rekamMedisEnums } = require('../app_modules/model-enums')
+const jenisPemeriksaan = rekamMedisEnums.pemeriksaan
+
+let { uri, options, user, login, rekamMedis, anc } = require('../test_modules/test_data')
 let sessionData = {}
 
-describe('Asesmen Awal', () => {
+describe('Antenatal Care', () => {
     // init bidan and pasien
     describe('Init User', () => {
         // sign up bidan
@@ -80,11 +83,12 @@ describe('Asesmen Awal', () => {
      * START
      */
 
-    describe('Asesmen Awal Test', () => {
+    describe('Antenatal Care Test', () => {
         // create rekam medis
         it('create rekam medis: should return 201', (done) => {
             rekamMedis.idBidan = sessionData.bidanId
             rekamMedis.idPasien = sessionData.pasienId
+            rekamMedis.jenisPemeriksaan = jenisPemeriksaan.anc
             needle.post(uri.rekamMedis, JSON.stringify(rekamMedis), options.bidan, (err, res) => {
                 try {
                     if (err) { throw err }
@@ -99,16 +103,16 @@ describe('Asesmen Awal', () => {
             })
         })
 
-        // create asesmen awal
-        it('create asesmen awal: should return 201', (done) => {
-            asesmenAwal.idRekamMedis = sessionData.rekamMedisId
-            needle.post(uri.asesmenAwal, JSON.stringify(asesmenAwal), options.bidan, (err, res) => {
+        // create antenatal care
+        it('create antenatal care: should return 201', (done) => {
+            anc.idRekamMedis = sessionData.rekamMedisId
+            needle.post(uri.anc, JSON.stringify(anc), options.bidan, (err, res) => {
                 try {
                     if (err) { throw err }
                     let body = res.body
                     if (body.docId == undefined) { throw body }
                     expect(body.httpStatus.statusCode).equal(201)
-                    sessionData.asesmenAwalId = body.docId
+                    sessionData.ancId = body.docId
                     done()
                 } catch (e) {
                     return
@@ -116,14 +120,16 @@ describe('Asesmen Awal', () => {
             })
         })
 
-        // update asesmen awal subjektif
-        let subjektifUpdate = {
-            riwayatPenyakit: {
-                sekarang: "Jantung"
+        // update antenatal care
+        let ancUpdate = {
+            pemeriksaan: {
+                ibu: {
+                    beratBadan: 61.5
+                }
             }
         }
-        it('update subjektif: should return 200', (done) => {
-            needle.put(`${uri.asesmenAwalSubjektif}?_id=${sessionData.asesmenAwalId}`, JSON.stringify(subjektifUpdate), options.bidan, (err, res) => {
+        it('update antenatal care: should return 200', (done) => {
+            needle.put(`${uri.anc}?_id=${sessionData.ancId}`, JSON.stringify(ancUpdate), options.bidan, (err, res) => {
                 try {
                     if (err) { throw err }
                     let body = res.body
@@ -136,38 +142,17 @@ describe('Asesmen Awal', () => {
             })
         })
 
-        // update asesmen awal objektif
-        let objektifUpdate = {
-            tandaVital: {
-                nadiPerMenit: 80
-            }
-        }
-        it('update subjektif: should return 200', (done) => {
-            needle.put(`${uri.asesmenAwalObjektif}?_id=${sessionData.asesmenAwalId}`, JSON.stringify(objektifUpdate), options.bidan, (err, res) => {
+        // get antenatal care
+        it('get antenatal care: should return created object', (done) => {
+            needle.get(`${uri.anc}?_id=${sessionData.ancId}`, options.bidan, (err, res) => {
                 try {
                     if (err) { throw err }
                     let body = res.body
-                    if (body.docId == undefined) { throw body }
-                    expect(body.httpStatus.statusCode).equal(200)
-                    done()
-                } catch (e) {
-                    return
-                }
-            })
-        })
-
-        // get asesmen awal
-        it('get asesmen awal: should return created object', (done) => {
-            needle.get(`${uri.asesmenAwal}?_id=${sessionData.asesmenAwalId}`, options.bidan, (err, res) => {
-                try {
-                    if (err) { throw err }
-                    let body = res.body
-                    let subjektif = body.doc.subjektif
-                    let objektif = body.doc.objektif
                     if (body.doc._id == undefined) { throw body }
-                    expect(body.doc.idRekamMedis).equal(sessionData.rekamMedisId)
-                    expect(subjektif.riwayatPenyakit.sekarang[0]).equal(subjektifUpdate.riwayatPenyakit.sekarang)
-                    expect(objektif.tandaVital.nadiPerMenit).equal(objektifUpdate.tandaVital.nadiPerMenit)
+                    let doc = body.doc
+                    expect(doc.idRekamMedis).equal(sessionData.rekamMedisId)
+                    expect(doc.pemeriksaan.ibu.beratBadan).equal(ancUpdate.pemeriksaan.ibu.beratBadan)
+                    expect(doc.pemeriksaan.ibu.tinggiBadan).equal(anc.pemeriksaan.ibu.tinggiBadan)
                     done()
                 } catch (e) {
                     return
@@ -175,9 +160,9 @@ describe('Asesmen Awal', () => {
             })
         })
 
-        // delete asesmen awal
-        it('delete asesmen awal: should return 403', (done) => {
-            needle.delete(`${uri.asesmenAwal}?_id=${sessionData.asesmenAwalId}`, null, options.bidan, (err, res) => {
+        // delete antenatal care
+        it('delete antenatal care: should return 403', (done) => {
+            needle.delete(`${uri.anc}?_id=${sessionData.ancId}`, null, options.bidan, (err, res) => {
                 try {
                     if (err) { throw err }
                     let body = res.body

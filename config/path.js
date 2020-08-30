@@ -14,6 +14,7 @@ const path = {
         lampiran: '/lampiran',
         usg: '/usg',
         ctg: '/ctg',
+        anc: '/anc'
     }
 }
 

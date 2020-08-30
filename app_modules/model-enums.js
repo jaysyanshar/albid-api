@@ -160,8 +160,39 @@ const asesmenAwalObjektifEnums = Object.freeze({
     
 })
 
+//////////////////
+// ANTENATAL CARE
+//////////////////
+const antenatalCareEnums = Object.freeze({
+    trimester: {
+        t1: '1',
+        t2: '2',
+        t3: '3'
+    },
+    statusGizi: {
+        kurang: 'KURANG',
+        normal: 'NORMAL',
+        lebih: 'LEBIH'
+    },
+    posisiJanin: {
+        kepala: 'KEPALA',
+        sungsang: 'SUNGSANG',
+        lintang: 'LINTANG'
+    },
+    imunisasiTetanus: {
+        tt0: 'TT0',
+        tt1: 'TT1',
+        tt2: 'TT2',
+        tt3: 'TT3',
+        tt4: 'TT4',
+        tt5: 'TT5'
+    }
+})
+
+
 module.exports = { 
     rekamMedisEnums, 
     asesmenAwalSubjektifEnums,
-    asesmenAwalObjektifEnums
+    asesmenAwalObjektifEnums,
+    antenatalCareEnums
 }

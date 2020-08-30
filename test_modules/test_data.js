@@ -8,6 +8,7 @@ const pasienUri = host + path.apiPath.pasien
 const sessionUri = host + path.apiPath.session
 const rekamMedisUri = host + path.apiPath.rekamMedis
 const asesmenAwalUri = host + path.apiPath.asesmenAwal
+const ancUri = host + path.apiPath.anc
 
 var bidanOptions = {
     headers: {
@@ -159,6 +160,22 @@ var asesmenAwalData = {
     }
 }
 
+var ancData = {
+    trimester: "1",
+    pemeriksaan: {
+        ibu: {
+            anamnesis: "Sakit perut",
+            beratBadan: 60.5,
+            tinggiBadan: 162.1,
+            tekananDarah: {
+                sistolik: 120,
+                diastolik: 80
+            },
+            statusGizi: "NORMAL"
+        }
+    }
+}
+
 module.exports = {
     uri: {
         bidan: bidanUri,
@@ -167,7 +184,8 @@ module.exports = {
         rekamMedis: rekamMedisUri,
         asesmenAwal: asesmenAwalUri,
         asesmenAwalSubjektif: `${asesmenAwalUri}/subjektif`,
-        asesmenAwalObjektif: `${asesmenAwalUri}/objektif`
+        asesmenAwalObjektif: `${asesmenAwalUri}/objektif`,
+        anc: ancUri
     },
     options: {
         bidan: bidanOptions,
@@ -182,5 +200,6 @@ module.exports = {
         pasien: pasienLoginInfo,
     },
     rekamMedis: rekamMedisData,
-    asesmenAwal: asesmenAwalData
+    asesmenAwal: asesmenAwalData,
+    anc: ancData
 }
