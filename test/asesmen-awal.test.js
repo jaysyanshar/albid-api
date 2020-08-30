@@ -4,11 +4,11 @@
 
 const expect = require('chai').expect
 const needle = require('needle')
-let { uri, options, user, login, rekamMedis } = require('../test_modules/test_data')
 
+let { uri, options, user, login, rekamMedis, asesmenAwal } = require('../test_modules/test_data')
 let sessionData = {}
 
-describe('Rekam Medis Test', () => {
+describe('Asesmen Awal Test', () => {
     // init bidan and pasien
     describe('Init User', () => {
         // sign up bidan
@@ -80,8 +80,8 @@ describe('Rekam Medis Test', () => {
      * START
      */
 
-    describe('Rekam Medis Test', () => {
-        // create new
+    describe('Asesmen Awal Test', () => {
+        // create rekam medis
         it('create rekam medis: should return 201', (done) => {
             rekamMedis.idBidan = sessionData.bidanId
             rekamMedis.idPasien = sessionData.pasienId
@@ -99,116 +99,93 @@ describe('Rekam Medis Test', () => {
             })
         })
 
-        // get one
-        it(`get rekam medis: should return created object`, (done) => {
-            needle.get(`${uri.rekamMedis}?_id=${sessionData.rekamMedisId}`, options.bidan, (err, res) => {
+        // create asesmen awal
+        it('create asesmen awal: should return 201', (done) => {
+            asesmenAwal.idRekamMedis = sessionData.rekamMedisId
+            needle.post(uri.asesmenAwal, JSON.stringify(asesmenAwal), options.bidan, (err, res) => {
                 try {
                     if (err) { throw err }
                     let body = res.body
-                    if (body.doc._id == undefined) { throw body }
-                    expect(body.doc._id).equal(sessionData.rekamMedisId)
-                    expect(body.doc.idBidan).equal(sessionData.bidanId)
-                    expect(body.doc.idPasien).equal(sessionData.pasienId)
+                    if (body.docId == undefined) { throw body }
+                    expect(body.httpStatus.statusCode).equal(201)
+                    sessionData.asesmenAwalId = body.docId
                     done()
-                } catch (error) {
+                } catch (e) {
                     return
                 }
             })
         })
 
-        // get one by pasien
-        it(`get rekam medis (pasien): should return created object`, (done) => {
-            needle.get(`${uri.rekamMedis}?_id=${sessionData.rekamMedisId}`, options.pasien, (err, res) => {
-                try {
-                    if (err) { throw err }
-                    let body = res.body
-                    if (body.doc._id == undefined) { throw body }
-                    expect(body.doc._id).equal(sessionData.rekamMedisId)
-                    expect(body.doc.idBidan).equal(sessionData.bidanId)
-                    expect(body.doc.idPasien).equal(sessionData.pasienId)
-                    done()
-                } catch (error) {
-                    return
-                }
-            })
-        })
-
-        // get list
-        it('get rekam medis list: should return created object', (done) => {
-            needle.get(
-                `${uri.rekamMedis}/list?idBidan=${sessionData.bidanId}&idPasien=${sessionData.pasienId}`, 
-                options.bidan, (err, res) => {
-                try {
-                    if (err) { throw err }
-                    let body = res.body
-                    if (body.doc[0]._id == undefined) { throw body }
-                    expect(body.doc[0]._id).equal(sessionData.rekamMedisId)
-                    expect(body.doc[0].idBidan).equal(sessionData.bidanId)
-                    expect(body.doc[0].idPasien).equal(sessionData.pasienId)
-                    done()
-                } catch (error) {
-                    return
-                }
-            })
-        })
-
-        // get list by pasien
-        it('get rekam medis list (pasien): should return created object', (done) => {
-            needle.get(
-                `${uri.rekamMedis}/list?idBidan=${sessionData.bidanId}&idPasien=${sessionData.pasienId}`, 
-                options.pasien, (err, res) => {
-                try {
-                    if (err) { throw err }
-                    let body = res.body
-                    if (body.doc[0]._id == undefined) { throw body }
-                    expect(body.doc[0]._id).equal(sessionData.rekamMedisId)
-                    expect(body.doc[0].idBidan).equal(sessionData.bidanId)
-                    expect(body.doc[0].idPasien).equal(sessionData.pasienId)
-                    done()
-                } catch (error) {
-                    return
-                }
-            })
-        })
-
-        // update
-        let updateData = {
-            penanggungJawab: {
-                noHP: '080000000003',
+        // update asesmen awal subjektif
+        let subjektifUpdate = {
+            riwayatPenyakit: {
+                sekarang: "Jantung"
             }
         }
-        it('update rekam medis: should return 200', (done) => {
-            needle.put(
-                `${uri.rekamMedis}?_id=${sessionData.rekamMedisId}`, 
-                JSON.stringify(updateData), 
-                options.bidan, (err, res) => {
+        it('update subjektif: should return 200', (done) => {
+            needle.put(`${uri.asesmenAwalSubjektif}?_id=${sessionData.asesmenAwalId}`, JSON.stringify(subjektifUpdate), options.bidan, (err, res) => {
                 try {
-                    if (err) throw err
+                    if (err) { throw err }
                     let body = res.body
-                    if (body.docId == undefined) throw body
+                    if (body.docId == undefined) { throw body }
                     expect(body.httpStatus.statusCode).equal(200)
                     done()
-                } catch (error) {
+                } catch (e) {
                     return
                 }
             })
         })
 
-        // check updated field
-        it('get updated rekam medis: should return updated object', (done) => {
-            needle.get(`${uri.rekamMedis}?_id=${sessionData.rekamMedisId}`, options.bidan, (err, res) => {
+        // update asesmen awal objektif
+        let objektifUpdate = {
+            tandaVital: {
+                nadiPerMenit: 80
+            }
+        }
+        it('update subjektif: should return 200', (done) => {
+            needle.put(`${uri.asesmenAwalObjektif}?_id=${sessionData.asesmenAwalId}`, JSON.stringify(objektifUpdate), options.bidan, (err, res) => {
                 try {
                     if (err) { throw err }
                     let body = res.body
-                    if (body.doc._id == undefined) { throw body }
-                    expect(body.doc._id).equal(sessionData.rekamMedisId)
-                    expect(body.doc.idBidan).equal(sessionData.bidanId)
-                    expect(body.doc.idPasien).equal(sessionData.pasienId)
-                    expect(body.doc.penanggungJawab.nama).equal(rekamMedis.penanggungJawab.nama)
-                    expect(body.doc.penanggungJawab.noHP).equal(updateData.penanggungJawab.noHP)
+                    if (body.docId == undefined) { throw body }
+                    expect(body.httpStatus.statusCode).equal(200)
                     done()
-                } catch (error) {
+                } catch (e) {
                     return
+                }
+            })
+        })
+
+        // get asesmen awal
+        it('get asesmen awal: should return created object', (done) => {
+            needle.get(`${uri.asesmenAwal}?_id=${sessionData.asesmenAwalId}`, options.bidan, (err, res) => {
+                try {
+                    if (err) { throw err }
+                    let body = res.body
+                    let subjektif = body.doc.subjektif
+                    let objektif = body.doc.objektif
+                    if (body.doc._id == undefined) { throw body }
+                    expect(body.doc.idRekamMedis).equal(sessionData.rekamMedisId)
+                    expect(subjektif.riwayatPenyakit.sekarang[0]).equal(subjektifUpdate.riwayatPenyakit.sekarang)
+                    expect(objektif.tandaVital.nadiPerMenit).equal(objektifUpdate.tandaVital.nadiPerMenit)
+                    done()
+                } catch (e) {
+                    return
+                }
+            })
+        })
+
+        // delete asesmen awal
+        it('delete asesmen awal: should return 403', (done) => {
+            needle.delete(`${uri.asesmenAwal}?_id=${sessionData.asesmenAwalId}`, null, options.bidan, (err, res) => {
+                try {
+                    if (err) { throw err }
+                    let body = res.body
+                    if (body.docId == undefined) { throw body }
+                    return
+                } catch (e) {
+                    expect(e.httpStatus.statusCode).equal(403)
+                    done()
                 }
             })
         })
