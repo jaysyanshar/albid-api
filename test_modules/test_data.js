@@ -2,7 +2,7 @@ const path = require('../config/path')
 const { rekamMedisEnums } = require('../app_modules/model-enums')
 
 const apiKey = require('../config/credentials').apiKey
-const host = path.apiLocalHost + path.apiPath.root
+const host = path.apiCloudHost + path.apiPath.root
 const bidanUri = host + path.apiPath.bidan
 const pasienUri = host + path.apiPath.pasien
 const sessionUri = host + path.apiPath.session

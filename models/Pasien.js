@@ -7,7 +7,7 @@ const pasienSchema = new Schema({
     password: { type: String, trim: true, default: '' },
     tanggalDaftar: { type: Date, required: true, default: Date.now, },
     nama: { type: String, trim: true, required: true, },
-    tanggalLahir: Date,
+    tanggalLahir: { type: Date, required: true, default: Date('1970-01-01') },
     kontak: {
         noHP: { type: String, trim: true, unique: true, required: true, index: true, },
         email: { type: String, trim: true, unique: true, sparse: true, index: true, },

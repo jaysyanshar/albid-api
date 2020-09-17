@@ -7,8 +7,9 @@ const needle = require('needle')
 const path = require('../config/path')
 
 const apiKey = require('../config/credentials').apiKey
-const bidanUri = path.apiLocalHost + path.apiPath.root + path.apiPath.bidan
-const sessionUri = path.apiLocalHost + path.apiPath.root + path.apiPath.session
+const { uri } = require('../test_modules/test_data')
+const bidanUri = uri.bidan
+const sessionUri = uri.session
 
 let options = {
     headers: {

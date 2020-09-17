@@ -4,12 +4,12 @@
 
 const expect = require('chai').expect
 const needle = require('needle')
-const path = require('../config/path')
 
 const apiKey = require('../config/credentials').apiKey
-const bidanUri = path.apiLocalHost + path.apiPath.root + path.apiPath.bidan
-const pasienUri = path.apiLocalHost + path.apiPath.root + path.apiPath.pasien
-const sessionUri = path.apiLocalHost + path.apiPath.root + path.apiPath.session
+const { uri } = require('../test_modules/test_data')
+const bidanUri = uri.bidan
+const pasienUri = uri.pasien
+const sessionUri = uri.session
 
 let options = {
     headers: {
@@ -144,6 +144,7 @@ describe('Bidan to Pasien Test', () => {
     // Update Pasien
     describe('Update Pasien\'s Profile', () => {
         let updateData = {
+            password: "mypasienpassword",
             kontak: {
                 email: 'mypasienemail@test.id'
             }
