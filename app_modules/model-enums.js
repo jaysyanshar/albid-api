@@ -189,10 +189,22 @@ const antenatalCareEnums = Object.freeze({
     }
 })
 
+//////////
+// KOHORT
+//////////
+const kohortEnums = Object.freeze({
+    penolongPersalinan: {
+        tenagaKesehatan: 'TENAGA KESEHATAN',
+        dukunTerlatih: 'DUKUN TERLATIH',
+        dukunTidakTerlatih: 'DUKUN TIDAK TERLATIH',
+    }
+})
+
 
 module.exports = { 
     rekamMedisEnums, 
     asesmenAwalSubjektifEnums,
     asesmenAwalObjektifEnums,
-    antenatalCareEnums
+    antenatalCareEnums,
+    kohortEnums
 }
