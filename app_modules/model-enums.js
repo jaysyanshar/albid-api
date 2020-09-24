@@ -212,6 +212,27 @@ const soapEnums = Object.freeze({
     jenisKelamin: {
         lakiLaki: 'LAKI-LAKI',
         perempuan: 'PEREMPUAN'
+    },
+    palpasiAbdomen: {
+        adaJaninLain: 'ADA JANIN LAIN',
+        tidak: 'TIDAK'
+    },
+    kontraksiUterus: {
+        ada: 'ADA',
+        tidakDanLemah: 'TIDAK DAN LEMAH',
+        adaKuat: 'ADA KUAT'
+    },
+    keteranganPlasenta: {
+        spontan: 'SPONTAN',
+        manual: 'MANUAL',
+        lengkap: 'LENGKAP',
+        tidak: 'TIDAK'
+    },
+    bilaRupture: {
+        1: 'I',
+        2: 'II',
+        3: 'III',
+        4: 'IV'
     }
 })
 
