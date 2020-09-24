@@ -204,13 +204,6 @@ const kohortEnums = Object.freeze({
 // SOAP ENUMS
 ///////////////
 const soapEnums = Object.freeze({
-    kesadaran: {
-        composMentis: 'COMPOS MENTIS',
-        apatis: 'APATIS',
-        somnolen: 'SOMNOLEN',
-        sopor: 'SOPOR',
-        coma: 'COMA',
-    },
     vesicaUrinaria: {
         penuh: 'PENUH',
         ada: 'ADA',

@@ -15,12 +15,7 @@ const soap2Schema = Schema({
         keluhanUtama: { type: String, trim: true }
     },
     objektif: {
-        kesadaran: {
-            type: String,
-            trim: true,
-            uppercase: true,
-            enum: Object.values(soapEnums.kesadaran)
-        },
+        kesadaran: { type: String, trim: true },
         ttv: {
             tekananDarah: {
                 sistolik: { type: Number, min: 0, validate: { validator: Number.isInteger } },
