@@ -15,7 +15,11 @@ const path = {
         usg: '/usg',
         ctg: '/ctg',
         anc: '/anc',
-        kohort: '/kohort'
+        kohort: '/kohort',
+        soap1: '/soap1',
+        soap2: '/soap2',
+        soap3: '/soap3',
+        soap4: '/soap4'
     }
 }
 
