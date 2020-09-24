@@ -30,7 +30,7 @@ const soap1Schema = Schema({
             respirasi: { type: Number, min: 0, validate: { validator: Number.isInteger } }, // per menit
             suhu: Number, // celsius
         },
-        detakJantungJanin: { type: Number, min: 0, validate: { validator: Number.isInteger } },
+        detakJantungJanin: { type: Number, min: 0, validate: { validator: Number.isInteger } }, // per menit
         periksaDalam: {
             vulva: { type: String, trim: true },
             pembukaan: { type: Number, min: 0, validate: { validator: Number.isInteger } },
