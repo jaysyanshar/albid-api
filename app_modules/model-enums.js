@@ -215,6 +215,10 @@ const soapEnums = Object.freeze({
         penuh: 'PENUH',
         ada: 'ADA',
         kosong: 'KOSONG'
+    },
+    jenisKelamin: {
+        lakiLaki: 'LAKI-LAKI',
+        perempuan: 'PEREMPUAN'
     }
 })
 

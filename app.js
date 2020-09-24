@@ -19,6 +19,7 @@ const asesmenAwalRoute = require('./routes/asesmen-awal-route')
 const antenatalCareRoute = require('./routes/antenatal-care-route')
 const kohortRoute = require('./routes/kohort-route')
 const soap1Route = require('./routes/soap-1-route')
+const soap2Route = require('./routes/soap-2-route')
 
 // Init App
 const app = express()
@@ -48,6 +49,7 @@ const runFunction = () => {
     app.use(root + path.apiPath.anc, antenatalCareRoute)
     app.use(root + path.apiPath.kohort, kohortRoute)
     app.use(root + path.apiPath.soap1, soap1Route)
+    app.use(root + path.apiPath.soap2, soap2Route)
 
     // Listening on server
     app.listen(port, () => console.log('Listening on port ', port))
