@@ -308,6 +308,65 @@ const postnatalCareEnums = Object.freeze({
     }
 })
 
+//////////////////
+// KARTU BAYI
+//////////////////
+const kartuBayiEnums = Object.freeze({
+    jenisKelamin: asesmenAwalSubjektifEnums.jenisKelamin,
+    golonganDarah: {
+        a: 'A',
+        b: 'B',
+        ab: 'AB',
+        o: 'O'
+    },
+    rhesus: {
+        positif: '+',
+        negatif: '-'
+    },
+    keadaanLahir: {
+        hidup: 'HIDUP',
+        mati: 'MATI'
+    },
+    keadaanPulang: {
+        hidup: 'HIDUP',
+        mati: 'MATI',
+        dirujuk: 'DIRUJUK'
+    },
+    tempatDirujuk: {
+        puskesmas: 'PUSKESMAS',
+        rumahBersalin: 'RUMAH BERSALIN',
+        rsia: 'RSIA',
+        rsb: 'RSB',
+        rumahSakit: 'RUMAH SAKIT',
+        lainnya: 'LAINNYA'
+    },
+    keadaanTibaDirujuk: {
+        hidup: 'HIDUP',
+        mati: 'MATI'
+    },
+    keadaanPulangDirujuk: {
+        hidup: 'HIDUP',
+        mati: 'MATI'
+    },
+    komplikasi: {
+        asfiksia: 'ASFIKSIA',
+        hipotermi: 'HIPOTERMI',
+        infeksi: 'INFEKSI',
+        tetanus: 'TETANUS',
+        bblr: 'BBLR',
+        lainnya: 'LAINNYA'
+    },
+    imd: {
+        lebih: 'LEBIH DARI 1 JAM',
+        kurang: 'KURANG DARI 1 JAM'
+    },
+    pencegahan: {
+        vitaminK1: 'VITAMIN K1',
+        hepatitisB0: 'HEPATITIS B0',
+        salepMata: 'SALEP MATA'
+    }
+})
+
 module.exports = { 
     rekamMedisEnums, 
     asesmenAwalSubjektifEnums,
@@ -316,5 +375,6 @@ module.exports = {
     kohortEnums,
     soapEnums,
     partografEnums,
-    postnatalCareEnums
+    postnatalCareEnums,
+    kartuBayiEnums
 }
