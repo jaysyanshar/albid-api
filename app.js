@@ -22,6 +22,8 @@ const soap1Route = require('./routes/soap-1-route')
 const soap2Route = require('./routes/soap-2-route')
 const soap3Route = require('./routes/soap-3-route')
 const soap4Route = require('./routes/soap-4-route')
+// const partografRoute = require('./routes/partograf-route')
+const postnatalCareRoute = require('./routes/postnatal-care-route')
 
 // Init App
 const app = express()
@@ -54,6 +56,8 @@ const runFunction = () => {
     app.use(root + path.apiPath.soap2, soap2Route)
     app.use(root + path.apiPath.soap3, soap3Route)
     app.use(root + path.apiPath.soap4, soap4Route)
+    // app.use(root + path.apiPath.partograf, partografRoute)
+    app.use(root + path.apiPath.pnc, postnatalCareRoute)
 
     // Listening on server
     app.listen(port, () => console.log('Listening on port ', port))

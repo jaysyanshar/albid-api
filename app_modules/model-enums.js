@@ -29,8 +29,10 @@ const rekamMedisEnums = {
         soap4: 'SOAP IV',
         partograf: 'PARTOGRAF',
         pnc: 'PNC',
-        bayi: 'BAYI',
-        neonatus: 'NEONATUS'
+        kartuBayi: 'KARTU BAYI',
+        neonatus: 'NEONATUS',
+        pemeriksaanBayi: 'PEMERIKSAAN BAYI',
+        pelayananKesehatan: 'PELAYANAN KESEHATAN'
     }),
 }
 
@@ -236,6 +238,75 @@ const soapEnums = Object.freeze({
     }
 })
 
+//////////////
+// PARTOGRAF
+//////////////
+const partografEnums = Object.freeze({
+    pendampingPersalinan: {
+        suami: 'SUAMI',
+        keluarga: 'KELUARGA',
+        teman: 'TEMAN',
+        dukun: 'DUKUN',
+        tidakAda: 'TIDAK ADA'
+    },
+    laserasiParineum: {
+        1: '1',
+        2: '2',
+        3: '3',
+        4: '4'
+    },
+    kontraksiUterus: soapEnums.kontraksiUterus,
+    vesicaUrinaria: soapEnums.vesicaUrinaria,
+    jenisKelamin: soapEnums.jenisKelamin,
+    penilaianBayi: {
+        baik: 'BAIK',
+        adaPenyulit: 'ADA PENYULIT'
+    },
+    bayiNormal: {
+        mengeringkan: 'MENGERINGKAN',
+        menghangatkan: 'MENGHANGATKAN',
+        memastikanIMD: 'MEMASTIKAN IMD',
+        tindakanPencegahanInfeksi: 'TINDAKAN PENCEGAHAN INFEKSI'
+    },
+    kondisiBayi: {
+        asfiksia: 'ASFIKSIA',
+        pucat: 'PUCAT',
+        biru: 'BIRU',
+        lemas: 'LEMAS'
+    },
+    tindakanBayiTidakNormal: {
+        mengeringkan: 'MENGERINGKAN',
+        rangsangTaktil: 'RANGSANG TAKTIL',
+        bebaskanNapas: 'BEBASKAN JALAN NAPAS',
+        menghangatkan: 'MENGHANGATKAN',
+        lainnya: 'LAINNYA'
+    }
+})
+
+///////////////////
+// POSTNATAL CARE
+///////////////////
+const postnatalCareEnums = Object.freeze({
+    kondisiIbu: {
+        baik: 'BAIK',
+        kurangBaik: 'KURANG BAIK',
+        tidakBaik: 'TIDAK BAIK'
+    },
+    kondisiPerineum: {
+        baik: 'BAIK',
+        adaJahitan: 'ADA JAHITAN',
+        lainnya: 'LAINNYA'
+    },
+    tinggiFundusUteri: {
+        duaJari: '2 JARI',
+        tigaJari: '3 JARI',
+        lainnya: 'LAINNYA'
+    },
+    lokhia: {
+        rubra: 'RUBRA',
+        lainnya: 'LAINNYA'
+    }
+})
 
 module.exports = { 
     rekamMedisEnums, 
@@ -243,5 +314,7 @@ module.exports = {
     asesmenAwalObjektifEnums,
     antenatalCareEnums,
     kohortEnums,
-    soapEnums
+    soapEnums,
+    partografEnums,
+    postnatalCareEnums
 }

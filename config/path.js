@@ -19,7 +19,13 @@ const path = {
         soap1: '/soap1',
         soap2: '/soap2',
         soap3: '/soap3',
-        soap4: '/soap4'
+        soap4: '/soap4',
+        partograf: '/partograf',
+        pnc: '/pnc',
+        kartuBayi: '/kartuBayi',
+        neonatus: '/neonatus',
+        pemeriksaanBayi: '/pemeriksaanBayi',
+        pelayananKesehatan: '/pelayananKesehatan'
     }
 }
 
