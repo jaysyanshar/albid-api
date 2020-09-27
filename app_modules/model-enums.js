@@ -399,6 +399,17 @@ const neonatusEnums = Object.freeze({
     }
 })
 
+/////////////////////////
+// Pelayanan Kesehatan
+/////////////////////////
+const pelayananKesehatanEnums = Object.freeze({
+    tindakan: {
+        terapi: 'TERAPI',
+        rujukan: 'RUJUKAN',
+        umpanBalik: 'UMPAN BALIK'
+    }
+})
+
 
 module.exports = { 
     rekamMedisEnums, 
@@ -410,5 +421,6 @@ module.exports = {
     partografEnums,
     postnatalCareEnums,
     kartuBayiEnums,
-    neonatusEnums
+    neonatusEnums,
+    pelayananKesehatanEnums
 }

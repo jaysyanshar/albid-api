@@ -27,6 +27,7 @@ const postnatalCareRoute = require('./routes/postnatal-care-route')
 const kartuBayiRoute = require('./routes/kartu-bayi-route')
 const neonatusRoute = require('./routes/neonatus-route')
 const pemeriksaanBayiRoute = require('./routes/pemeriksaan-bayi-route')
+const pelayananKesehatanRoute = require('./routes/pelayanan-kesehatan-route')
 
 // Init App
 const app = express()
@@ -64,7 +65,8 @@ const runFunction = () => {
     app.use(root + path.apiPath.kartuBayi, kartuBayiRoute)
     app.use(root + path.apiPath.neonatus, neonatusRoute)
     app.use(root + path.apiPath.pemeriksaanBayi, pemeriksaanBayiRoute)
-
+    app.use(root + path.apiPath.pelayananKesehatan, pelayananKesehatanRoute)
+    
     // Listening on server
     app.listen(port, () => console.log('Listening on port ', port))
 }

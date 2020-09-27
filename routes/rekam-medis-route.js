@@ -18,7 +18,7 @@ const PostnatalCare = require('../models/PostnatalCare')
 const KartuBayi = require('../models/KartuBayi')
 const Neonatus = require('../models/Neonatus')
 const PemeriksaanBayi = require('../models/PemeriksaanBayi')
-// const PelayananKesehatan = require('../models/PelayananKesehatan')
+const PelayananKesehatan = require('../models/PelayananKesehatan')
 
 const { role } = require('../app_modules/app-enums')
 const baseResponse = require('../app_modules/base-response')
@@ -147,8 +147,8 @@ const getModel = (jenis) => {
             return Neonatus
         case jenisPemeriksaan.pemeriksaanBayi:
             return PemeriksaanBayi
-        // case jenisPemeriksaan.pelayananKesehatan:
-        //     return PelayananKesehatan
+        case jenisPemeriksaan.pelayananKesehatan:
+            return PelayananKesehatan
         default:
             return null
     }
