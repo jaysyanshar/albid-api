@@ -16,7 +16,7 @@ const SOAP4 = require('../models/SOAP4')
 // const Partograf = require('../models/Partograf')
 const PostnatalCare = require('../models/PostnatalCare')
 const KartuBayi = require('../models/KartuBayi')
-// const Neonatus = require('../models/Neonatus')
+const Neonatus = require('../models/Neonatus')
 // const PemeriksaanBayi = require('../models/PemeriksaanBayi')
 // const PelayananKesehatan = require('../models/PelayananKesehatan')
 
@@ -143,8 +143,8 @@ const getModel = (jenis) => {
             return PostnatalCare
         case jenisPemeriksaan.kartuBayi:
             return KartuBayi
-        // case jenisPemeriksaan.neonatus:
-        //     return Neonatus
+        case jenisPemeriksaan.neonatus:
+            return Neonatus
         // case jenisPemeriksaan.pemeriksaanBayi:
         //     return PemeriksaanBayi
         // case jenisPemeriksaan.pelayananKesehatan:

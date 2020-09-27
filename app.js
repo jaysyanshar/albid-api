@@ -25,6 +25,7 @@ const soap4Route = require('./routes/soap-4-route')
 // const partografRoute = require('./routes/partograf-route')
 const postnatalCareRoute = require('./routes/postnatal-care-route')
 const kartuBayiRoute = require('./routes/kartu-bayi-route')
+const neonatusRoute = require('./routes/neonatus-route')
 
 // Init App
 const app = express()
@@ -60,6 +61,7 @@ const runFunction = () => {
     // app.use(root + path.apiPath.partograf, partografRoute)
     app.use(root + path.apiPath.pnc, postnatalCareRoute)
     app.use(root + path.apiPath.kartuBayi, kartuBayiRoute)
+    app.use(root + path.apiPath.neonatus, neonatusRoute)
 
     // Listening on server
     app.listen(port, () => console.log('Listening on port ', port))

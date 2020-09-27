@@ -367,6 +367,39 @@ const kartuBayiEnums = Object.freeze({
     }
 })
 
+//////////////////////////
+// NEONATUS
+/////////////////////////
+const neonatusEnums = Object.freeze({
+    tenagaKesehatan: {
+        dokter: 'DOKTER',
+        bidan: 'BIDAN',
+        perawat: 'PERAWAT'
+    },
+    keadaanPulang: {
+        hidup: 'HIDUP',
+        mati: 'MATI',
+        dirujuk: 'DIRUJUK'
+    },
+    tempat: {
+        puskesmas: 'PUSKESMAS',
+        ruangBersalin: 'RUANG BERSALIN',
+        rsia: 'RSIA',
+        rsb: 'RSB',
+        rumahSakit: 'RUMAH SAKIT',
+        lainnya: 'LAINNYA'
+    },
+    keadaanTibaDirujuk: {
+        hidup: 'HIDUP',
+        mati: 'MATI'
+    },
+    keadaanPulangDirujuk: {
+        hidup: 'HIDUP',
+        mati: 'MATI'
+    }
+})
+
+
 module.exports = { 
     rekamMedisEnums, 
     asesmenAwalSubjektifEnums,
@@ -376,5 +409,6 @@ module.exports = {
     soapEnums,
     partografEnums,
     postnatalCareEnums,
-    kartuBayiEnums
+    kartuBayiEnums,
+    neonatusEnums
 }
