@@ -8,8 +8,8 @@ const neonatusSchema = Schema({
     idRekamMedis: { type: mongoose.Types.ObjectId, required: true, index: true, },
     pemeriksaan: {
         umur: {
-            hari: { type: Number, min: 0, max: 30, validate: { validator: Number.isInteger } },
-            bulan: { type: Number, min: 0, max: 11, validate: { validator: Number.isInteger } },
+            hari: { type: Number, min: 0, validate: { validator: Number.isInteger } },
+            bulan: { type: Number, min: 0, validate: { validator: Number.isInteger } },
             tahun: { type: Number, min: 0, validate: { validator: Number.isInteger } }
         },
         kunjunganNeonatal: Boolean,
