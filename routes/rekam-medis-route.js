@@ -13,7 +13,7 @@ const SOAP1 = require('../models/SOAP1')
 const SOAP2 = require('../models/SOAP2')
 const SOAP3 = require('../models/SOAP3')
 const SOAP4 = require('../models/SOAP4')
-// const Partograf = require('../models/Partograf')
+const Partograf = require('../models/Partograf')
 const PostnatalCare = require('../models/PostnatalCare')
 const KartuBayi = require('../models/KartuBayi')
 const Neonatus = require('../models/Neonatus')
@@ -137,8 +137,8 @@ const getModel = (jenis) => {
             return SOAP3
         case jenisPemeriksaan.soap4:
             return SOAP4
-        // case jenisPemeriksaan.partograf:
-        //     return Partograf
+        case jenisPemeriksaan.partograf:
+            return Partograf
         case jenisPemeriksaan.pnc:
             return PostnatalCare
         case jenisPemeriksaan.kartuBayi:
