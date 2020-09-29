@@ -1,5 +1,4 @@
 const path = require('../config/path')
-const credentials = require('../config/credentials')
 
 const host = path.apiLocalHost + path.apiPath.root
 const api = path.apiPath
@@ -25,11 +24,5 @@ module.exports = {
         neonatus: host + api.neonatus,
         pemeriksaanBayi: host + api.pemeriksaanBayi,
         pelayananKesehatan: host + api.pelayananKesehatan
-    },
-    headers: (sesID='') => {
-        return {
-            'X-API-Key': credentials.apiKey,
-            'Session-ID': sesID
-        }
     }
 }
