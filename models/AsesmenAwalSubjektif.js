@@ -12,9 +12,9 @@ const asesmenAwalSubjektifSchema = new Schema({
     },
     anamnesis: { type: String, trim: true, },
     riwayatPenyakit: {
-        sekarang: { type: [String], trim: true },
-        dahulu: { type: [String], trim: true },
-        keluarga: { type: [String], trim: true },
+        sekarang: [{ type: String, trim: true }],
+        dahulu: [{ type: String, trim: true }],
+        keluarga: [{ type: String, trim: true }],
     },
     riwayatMenstruasi: {
         haidTerakhir: {

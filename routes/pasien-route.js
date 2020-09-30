@@ -2,6 +2,7 @@ const express = require('express')
 const crud = require('../app_modules/crud')
 const validator = require('../app_modules/validator')
 const baseResponse = require('../app_modules/base-response')
+const flatten = require('flat')
 
 const Pasien = require('../models/Pasien')
 const Session = require('../models/Session')
@@ -88,7 +89,10 @@ router.get('/', (req, res) => crud.readOne(req, res, Pasien))
 // Get Pasien Profile List (bidan only)
 router.get('/list', (req, res) => crud.readMany(req, res, Pasien))
 // Update Pasien Profile
-router.put('/', (req, res) => crud.updateOne(req, res, Pasien))
+router.put('/', (req, res) => {
+    req.body = flatten(req.body)
+    crud.updateOne(req, res, Pasien)
+})
 // Delete Account
 router.delete('/', (req, res) => deletePasienAccount(req, res))
 

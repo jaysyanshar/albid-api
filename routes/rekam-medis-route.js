@@ -1,4 +1,5 @@
 const express = require('express')
+const flatten = require('flat')
 const validator = require('../app_modules/validator')
 const crud = require('../app_modules/crud')
 
@@ -184,7 +185,10 @@ router.post('/', (req, res) => {
 })
 router.get('/', (req, res) => crud.readOne(req, res, RekamMedis))
 router.get('/list', (req, res) => crud.readMany(req, res, RekamMedis))
-router.put('/', (req, res) => crud.updateOne(req, res, RekamMedis))
+router.put('/', (req, res) => {
+    req.body = flatten(req.body)
+    crud.updateOne(req, res, RekamMedis)
+})
 router.delete('/', (req, res) => {
     RekamMedis.findOne(req.query, 'jenisPemeriksaan')
     .then(doc => {

@@ -2,6 +2,7 @@ const express = require('express')
 const crud = require('../app_modules/crud')
 const validator = require('../app_modules/validator')
 const baseResponse = require('../app_modules/base-response')
+const flatten = require('flat')
 
 const Bidan = require('../models/Bidan')
 const Session = require('../models/Session')
@@ -70,7 +71,10 @@ router.get('/', (req, res) => crud.readOne(req, res, Bidan))
 // Get Bidan Profile List
 router.get('/list', (req, res) => crud.readMany(req, res, Bidan))
 // Update Profile
-router.put('/', (req, res) => crud.updateOne(req, res, Bidan))
+router.put('/', (req, res) => {
+    req.body = flatten(req.body)
+    crud.updateOne(req, res, Bidan)
+})
 // Delete Account
 router.delete('/', (req, res) => deleteAccount(req, res))
 
